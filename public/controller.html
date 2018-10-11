@@ -1,0 +1,67 @@
+<html>
+	<body style="width: 100%; height: 100%">
+		<div id="text-to-send" contenteditable="true">Scroll with your tongue</div>
+		<div>
+			<button onclick="setClientsWS(0)">Scroll</button>
+			<button onclick="setClientsWS(1)">Saliva</button>
+			<button onclick="setClientsWS(2)">Microbiota</button>
+			<button onclick="setClientsWS(3)">Looking</button>
+			<button onclick="setClientsWS(4)">Match</button>
+		</div>
+		<script>
+		</script>
+	<script>
+
+	const port = location.PORT || 3000;
+
+	var ws;
+    var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    //var wsServer = "wss://" + window.location.hostname + ":" + location.port + "/wss";
+	document.write("Socket Server : "+wsServer);
+   	document.addEventListener("DOMContentLoaded", function(event) {
+    	
+    	// Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+    	ws.onopen = function (event) {
+          //exampleSocket.send("Here's some text that the server is urgently awaiting!"); 
+          console.log("Connected to ws server");
+        };
+
+        // Log errors
+		ws.onerror = function (error) {
+		  console.error("WebSocket Error " + error);
+		};
+
+		// Log messages from the server
+		ws.onmessage = function (e) {
+			console.log("Received message: " + e.data);
+		};
+
+    });
+
+
+	function setClientsWS(stage) {
+
+		if (!ws) {
+			console.log("No ws connection!");
+			return;
+		}
+
+		messageToSend = "";
+
+		if (stage == 0) {
+			messageToSend = document.getElementById("text-to-send").innerHTML;
+		}
+
+		ws.send(JSON.stringify({
+			type:"broadcast", 
+			stage: stage,
+			standbyMsg: messageToSend
+		}));
+
+	}
+	
+	</script>
+	</body>
+</html>

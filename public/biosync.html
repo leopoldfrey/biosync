@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- guide: https://davidwalsh.name/html5-camera-video-iphone -->
+<!-- https://github.com/blueimp/JavaScript-Load-Image -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Biosync Match Application</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <!--link href="css/grayscale.min.css" rel="stylesheet"-->
+    <link href="css/grayscale.css" rel="stylesheet">
+
+    <!-- Img processing from phone -->
+    <script src="js/load-image.all.min.js"></script>
+    
+    <script>
+
+    const port = location.PORT || 3000;
+
+	var ws;
+    var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    //var wsServer = "wss://" + window.location.hostname + ":" + location.port + "/wss";
+
+    /* Onload */
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+		var parameters = location.search.substring(1).split("&");
+
+    	var temp = parameters[0].split("=");
+    	fname = unescape(temp[1]);
+    	temp = parameters[1].split("=");
+    	lname = unescape(temp[1]);
+    	document.getElementById("fname").innerHTML = fname;
+    	document.getElementById("lname").innerHTML = lname;
+    
+    var obj = document.getElementById('page-top');
+	obj.addEventListener('touchmove', function(event) {
+		console.log("TOUCHMOVE !!!");
+	}, false);
+    
+        connectToWS();
+
+    });
+
+    /* -- Web Sockets -- */
+    document.addEventListener("visibilitychange", function() {
+        //console.log("Visibility changed to: " + document.visibilityState);
+        if(document.visibilityState == "visible" ) {
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+            // Check again in one second
+            setTimeout(function(){
+                checkWSStateAndReconnectIfNecessary(ws.readyState);
+            }, 3000);
+        }
+    });
+
+    document.addEventListener("onfocus", function() {
+        //console.log("Gained focus");
+        checkWSStateAndReconnectIfNecessary(ws.readyState);
+
+        // Check again in one second
+        setTimeout(function(){
+            checkWSStateAndReconnectIfNecessary(ws.readyState);
+        }, 3000);
+    });
+
+    function connectToWS() {
+        // Connect to websocket server
+        ws = new WebSocket(wsServer);
+
+        // Log messages from the server
+        ws.onmessage = function (e) {
+            console.log("Received message: " + e.data);
+            var reply = JSON.parse(e.data);
+            if (reply.type == "changeState" || reply.type == "initState") {
+                setStage(reply.stage, reply.standbyMsg);
+            } else {
+                console.log("Unknown state received from server: " + reply.type);
+            }
+        };
+
+        // Log errors
+        ws.onerror = function (error) {
+            console.error("WebSocket Error " + error);
+        };
+
+        ws.onopen = function (event) {
+            console.log("Connected to ws server");
+
+            ws.send(
+                JSON.stringify(
+                {
+                    type:"getInit",
+                    stage:""
+                })
+            , function (err) {
+                if (err) {
+                    console.log("Error sending init");
+                } else {
+                    console.log("Success sending init");
+                }
+                
+            });
+            
+        };
+
+    }
+
+
+    function checkWSStateAndReconnectIfNecessary(wsReadyState) {
+        switch(wsReadyState) {
+            case ws.CONNECTING:
+                console.log("WebSocket Connecting...");
+                break;
+            case ws.OPEN:
+                console.log("WebSocket Open :)");
+                break;
+            case ws.CLOSING:
+                console.log("WebSocket Closing...");
+                break;
+            case ws.CLOSED:
+                console.log("WebSocket Closed :(");
+                connectToWS();
+                break;
+        }
+
+    }
+
+    function setStage(stage, standbyMsg) {
+
+        switch(parseInt(stage)) {
+            case 0:
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "Scroll With Your Tongue";
+            	document.getElementById("img-result").src = "";
+                break;
+            case 1:
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "Your saliva is being analyzed";
+            	document.getElementById("img-result").src = "";
+                break;
+            case 2:
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Analysis of your microbiota population";
+            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "img/microbiota.jpg";
+                break;
+            case 3:
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "Looking for a match";
+            	document.getElementById("img-result").src = "";
+                break;
+            case 4:
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "We have a match";
+            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "img/plan.jpg";
+                break;
+        }
+        
+        function sendMsg() {
+        	ws.send(
+                JSON.stringify(
+                {
+                    type:"getInit",
+                    stage:""
+                })
+            , function (err) {
+                if (err) {
+                    console.log("Error sending init");
+                } else {
+                    console.log("Success sending init");
+                }
+                
+            });
+    	}
+            
+    }
+
+    </script>
+
+    <style>
+    .img-result {
+        width:80%;
+        height:auto;
+    }
+
+    .btn-click-look {
+        background-color: white;
+        color: black;
+        border: 1px solid lightgray;
+        height: 42px;
+        /*position: fixed;*/
+        bottom: 40px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    </style>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+    
+    </nav>
+
+    <!-- Section -->
+    <section id="section-top" style="padding-top:30px; display:none" class="container content-section text-center" style="padding:0;">
+        
+        <h1><span id="msg-top"></span></h1>
+        
+        <div class="row">
+
+            <div id="imgResultDiv" class="col-lg-12" style="margin-bottom: 60px">
+                <img id="img-result" width="300" src=""></img>
+            </div>
+
+            <div class="col-lg-12">
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look" onclick="setStage(3,'')">Look for a match</div>
+
+            </div>            
+            
+        </div>
+    </section>
+
+    <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
+        
+        <h1 id="msg-standby">Scroll with your tongue</h1>
+        
+    </section>
+
+
+	<section style="display:none">
+		<div id="fname"></div>
+		<div id="lname"></div>
+	</section>
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "biosync",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.13.3",
+    "fs": "latest",
+    "multer": "^1.1.0",
+    "serve-index": "^1.9.1",
+    "ws": "^6.1.0"
+  }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Biosync Match Application</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Theme CSS -->
+    <link href="css/grayscale.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        document.getElementById("captcha-img").onclick = function (e) {
+            document.getElementById("captcha-img").src = "/img/captacha.gif";
+            
+            // 5 seconds later
+            setTimeout(function(){
+                document.getElementById("btn-login").classList.remove("disabled");
+            },5000);
+
+        };
+
+    });
+
+    // Link click submit to server
+    function sendName() {
+
+        $.post("/name",{fname: document.getElementById("fname").value, lname: document.getElementById("lname").value}, function(data){
+            if(data==="ok") {
+                console.log("Success sending name");
+              }
+          });
+
+		var loc = '/biosync.html?fname=' + document.getElementById("fname").value + "&lname=" + document.getElementById("lname").value;
+
+		console.log("LOC : "+loc);
+		
+        window.location.href = loc;
+        
+        //document.getElementById("idform").submit();
+    }
+
+    </script>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="display:none">
+        
+    </nav>
+
+    <!-- Intro Header -->
+    <!--header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">ERGOWEB</h1-->
+                        <!--p class="intro-text">A free, responsive, one page Bootstrap theme.
+                            <br>Created by Start Bootstrap.</p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a-->
+                    <!--/div>
+                </div>
+            </div>
+        </div>
+    </header-->
+    
+    <section id="main" style="padding-top:30px" class="container content-section text-center">
+        <div class="row">
+			<h1 style="font-size: 58px; margin-bottom:10px">Welcome</h1>
+			<h2> to the<br/>Biosync Match Application</h2>
+			<br/>
+			<!--form id="idform" action="biosync.html" method="GET"-->
+				<div class="row">
+					<input id="fname" style="color:black; margin-top: 20px; width: 276px; font-weight: 500" placeholder="first name">
+				</div>
+				<div class="row">
+					<input id="lname" style="color:black; margin-top: 20px; width: 276px; font-weight: 500" placeholder="last name">
+				</div>
+				<br/>
+				<div class="row">
+					<img id="captcha-img" src="/img/captacha-init.png" style="width:280px">
+				</div>
+				<br/>
+				<div class="row">
+					<button id="btn-login" class="btn btn-default disabled" onclick="sendName()">LOGIN</button>
+				</div>
+			<!--/form-->
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <!--script src="js/grayscale.min.js"></script-->
+    <script src="js/grayscale.js"></script>
+
+</body>
+
+</html>
