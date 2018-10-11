@@ -71,6 +71,8 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
    //console.log("FILE AUTHOR : "+req.fields);
    var file = __dirname + "/uploads/" + timeToAppend + "_" + req.file.originalname + "." + type;
    file = file.replaceAll(" ", "_");
+   console.error( req.file.path );
+              
    fs.readFile( req.file.path, function (err, data) {
         fs.writeFile(file, data, function (err) {
          if( err ){
