@@ -5,11 +5,11 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "body-parser": "latest",
-    "express": "^4.16.4",
-    "fs": "latest",
+    "express": "4.13.3",
     "multer": "1.1.0",
-    "serve-index": "latest",
-    "ws": "latest"
+    "fs": "latest",
+    "ws": "latest",
+    "body-parser": "latest",
+    "serve-index": "latest"
   }
 }
