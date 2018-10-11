@@ -39,7 +39,7 @@
 
     	var temp = location.search.substring(1).split("=");
     	name = unescape(temp[1]);
-    	document.getElementById("name").value = name;
+    	document.getElementById("name").innerHTML = name;
     
     	var obj = document.getElementById('page-top');
 		obj.addEventListener('touchmove', function(event) {
@@ -145,7 +145,7 @@
         //var blobFile = document.getElementById("btn-click-photo-os").files[0];
         var formData = new FormData();
         formData.append("biosync_image", blob);
-        //formData.append("name", document.getElementById("name").value);
+        //formData.append("name", document.getElementById("name").innerHTML);
 
         $.ajax({
             url: "/image",
@@ -370,8 +370,7 @@
 
             <div class="col-lg-12">
             	<input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
-                <input id="name" name="name" type="text" hidden value=""/>
-				<div id="btn-click-look"  class="btn btn-lg btn-click-look" onclick="onClick()"></div>
+                <div id="btn-click-look"  class="btn btn-lg btn-click-look" onclick="onClick()"></div>
 
             </div>            
             
@@ -383,6 +382,10 @@
         <h1 id="msg-standby"></h1>
         
     </section>
+
+	<section style="{display: none;}">
+		<div id="name"></div>
+	</section>
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
