@@ -6,12 +6,11 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.13.3",
+    "express": "^4.16.4",
     "express-formidable": "^1.0.0",
     "fs": "latest",
-    "multer": "^1.1.0",
-    "serve-index": "^1.9.1",
-    "ws": "^6.1.0",
-    "jquery": "^3.0.0"
+    "jquery": "^3.0.0",
+    "multer": "^1.4.1",
+    "serve-index": "^1.9.1"
   }
 }
