@@ -7,6 +7,7 @@ var path        = require("path");
 var WebSocket   = require("ws");
 var WebSocketServer   = WebSocket.Server;
 var bodyParser  = require("body-parser");
+
 var app         =   express();
 var server = http.createServer(app);
 
@@ -53,11 +54,12 @@ String.prototype.replaceAll = function(search, replacement) {
   return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+
 /*----------- Img receive -----------*/
 
 var upload = multer({ dest: '/tmp' })
 
-app.post('/image', upload.single("biosync_image"), function(req, res) {
+app.post('/image', upload.single("ergoimage"), function (req, res) {
    console.log("Receiving image..");
    var date = new Date();
 
@@ -123,8 +125,8 @@ const wss = new WebSocketServer({
     autoAcceptConnections: true
 });
 
-var currentStage = 0;
-var currentStandbyMessage = "Scroll with your tongue";
+var currentStage = -1;
+var currentStandbyMessage = "Take a Selfie";
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
