@@ -36,8 +36,8 @@ app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/img', express.static('public/img'));
 
-app.use('/uploads', express.static('uploads'));
-app.use('/uploads', serveIndex(__dirname + '/uploads'));
+app.use('/uploads', express.static('/public/uploads'));
+app.use('/uploads', serveIndex(__dirname + '/public/uploads'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -67,7 +67,7 @@ app.post('/image', upload.single("biosync_image"), function(req, res) {
    var type = req.file.mimetype.split("/")[1];
    //var name = req.body;
    console.log("FILE AUTHOR : "+req.fields);
-   var file = __dirname + "/uploads/" + timeToAppend + "_" + req.file.originalname + "." + type;
+   var file = __dirname + "/public/uploads/" + timeToAppend + "_" + req.file.originalname + "." + type;
    file = file.replaceAll(" ", "_");
    fs.readFile( req.file.path, function (err, data) {
         fs.writeFile(file, data, function (err) {

@@ -17,3 +17,4 @@ node_modules/formidable/LICENSE
 node_modules/formidable/package.json
 node_modules/formidable/Readme.md
 node_modules/formidable/yarn.lock
+*.jpeg

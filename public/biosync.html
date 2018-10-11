@@ -29,8 +29,8 @@
     const port = location.PORT || 3000;
 
 	var ws;
-    var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    //var wsServer = "wss://" + window.location.hostname + ":" + location.port + "/wss";
+    //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
+    var wsServer = "wss://" + window.location.hostname + ":" + port + "/wss";
 
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
