@@ -59,7 +59,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 var upload = multer({ dest: '/tmp' })
 
-app.post('/image', upload.single("ergoimage"), function (req, res) {
+app.post('/image', upload.single("biosync_image"), function (req, res) {
    console.log("Receiving image..");
    var date = new Date();
 
