@@ -7,7 +7,6 @@ var path        = require("path");
 var WebSocket   = require("ws");
 var WebSocketServer   = WebSocket.Server;
 var bodyParser  = require("body-parser");
-
 var app         =   express();
 var server = http.createServer(app);
 
@@ -54,13 +53,62 @@ String.prototype.replaceAll = function(search, replacement) {
   return target.replace(new RegExp(search, 'g'), replacement);
 };
 
+/*----------- Img receive -----------*/
+
+var upload = multer({ dest: '/tmp' })
+
+app.post('/image', upload.single("biosync_image"), function(req, res) {
+   console.log("Receiving image..");
+   var date = new Date();
+
+   var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
+
+   //var file = __dirname + "/uploads/" + timeToAppend + "_" + currentStage + "_" +  req.file.originalname;
+   var type = req.file.mimetype.split("/")[1];
+   //var name = req.body;
+   console.log("FILE AUTHOR : "+req.fields);
+   var file = __dirname + "/uploads/" + timeToAppend + "_" + req.file.originalname + "." + type;
+   file = file.replaceAll(" ", "_");
+   fs.readFile( req.file.path, function (err, data) {
+        fs.writeFile(file, data, function (err) {
+         if( err ){
+              console.error( err );
+              response = {
+                   message: 'Sorry, file could not be uploaded.',
+                   filename: req.file.originalname
+              };
+         }else{
+               console.log("Image saved");
+               response = {
+                   message: 'File uploaded successfully',
+                   filename: req.file.originalname
+              };
+
+              wss.clients.forEach(function each(client) {
+                if (client !== wss && client.readyState === WebSocket.OPEN) {
+                  console.log("Sending new img upload");
+                  client.send(
+                    JSON.stringify(
+                    {
+                      type: "newimage",
+                      stage: currentStage,
+                      standbyMsg: file
+                    }));
+                }
+              });
+          }
+          res.end( JSON.stringify( response ) );
+       });
+   });
+});
+
 /*----------- Name receive -----------*/
 // https://codeforgeek.com/2014/09/handle-get-post-request-express-4/
 app.post('/name', function (req, res) {
   console.log("Receiving username..");
 
-  if (req.body.fname || req.body.lname) {
-  	console.log('New user : '+req.body.fname+'_'+req.body.lname);
+  if (req.body.name) {
+  	console.log('New user : '+req.body.name);
   } else {
     console.log("Error: invalid name received");  
   }

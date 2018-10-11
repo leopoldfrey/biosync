@@ -1,12 +1,16 @@
 <html>
 	<body style="width: 100%; height: 100%">
 		<div id="text-to-send" contenteditable="true">Scroll with your tongue</div>
+		<br/>
 		<div>
-			<button onclick="setClientsWS(0)">Scroll</button>
-			<button onclick="setClientsWS(1)">Saliva</button>
-			<button onclick="setClientsWS(2)">Microbiota</button>
-			<button onclick="setClientsWS(3)">Looking</button>
-			<button onclick="setClientsWS(4)">Match</button>
+			<button onclick="setClientsWS(-1)">Selfie</button><br/>
+			<button onclick="setClientsWS(0)">Scroll</button><br/>
+			<button onclick="setClientsWS(1)">Again</button><br/>
+			<button onclick="setClientsWS(2)">And again</button><br/>
+			<button onclick="setClientsWS(3)">Saliva</button><br/>
+			<button onclick="setClientsWS(4)">Microbiota</button><br/>
+			<button onclick="setClientsWS(5)">Looking</button><br/>
+			<button onclick="setClientsWS(6)">Match</button><br/>
 		</div>
 		<script>
 		</script>
@@ -17,7 +21,7 @@
 	var ws;
     var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     //var wsServer = "wss://" + window.location.hostname + ":" + location.port + "/wss";
-	document.write("Socket Server : "+wsServer);
+	//document.write("Socket Server : "+wsServer);
    	document.addEventListener("DOMContentLoaded", function(event) {
     	
     	// Connect to websocket server

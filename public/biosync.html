@@ -24,6 +24,8 @@
     
     <script>
 
+	stage = -1;
+
     const port = location.PORT || 3000;
 
 	var ws;
@@ -33,23 +35,135 @@
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
-		var parameters = location.search.substring(1).split("&");
+		//var parameters = location.search.substring(1).split("&");
 
-    	var temp = parameters[0].split("=");
-    	fname = unescape(temp[1]);
-    	temp = parameters[1].split("=");
-    	lname = unescape(temp[1]);
-    	document.getElementById("fname").innerHTML = fname;
-    	document.getElementById("lname").innerHTML = lname;
+    	var temp = location.search.substring(1).split("=");
+    	name = unescape(temp[1]);
+    	document.getElementById("name").value = name;
     
-    var obj = document.getElementById('page-top');
-	obj.addEventListener('touchmove', function(event) {
-		console.log("TOUCHMOVE !!!");
-	}, false);
+    	var obj = document.getElementById('page-top');
+		obj.addEventListener('touchmove', function(event) {
+			console.log("TOUCHMOVE !!!");
+		}, false);
+		
+		if (window.File && window.FileReader && window.FormData) {
+
+            document.getElementById("btn-click-photo-os").onchange = function (event) {
+
+                // Resize image and upload
+                resizeAndUpload();
+
+            };
+
+        } else {
+            alert("File upload is not supported!");
+        }
+		
+		setStage(-1);
     
         connectToWS();
 
     });
+    
+    function onClick() {
+		switch (stage) {
+			case -1:
+				document.getElementById("btn-click-photo-os").click();
+				break;
+			case 4:
+				setStage(5,'');
+				break;
+			default:
+				break;
+		}
+	}
+
+/* Utility function to convert a canvas to a BLOB */
+    var dataURLToBlob = function(dataURL) {
+      //console.log("DataURLToBlob")
+        var BASE64_MARKER = ';base64,';
+        if (dataURL.indexOf(BASE64_MARKER) == -1) {
+            var parts = dataURL.split(',');
+            var contentType = parts[0].split(':')[1];
+            var raw = parts[1];
+
+            return new Blob([raw], {type: contentType});
+        }
+
+        var parts = dataURL.split(BASE64_MARKER);
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+
+        var uInt8Array = new Uint8Array(rawLength);
+
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], {type: contentType});
+    }
+    /* End Utility function to convert a canvas to a BLOB      */
+
+    // https://www.codeforest.net/html5-image-upload-resize-and-crop
+
+    function resizeAndUpload() {
+        var loadingImage = loadImage(
+            event.target.files[0],
+            function (canvas) {
+                var dataURL = canvas.toDataURL("image/jpeg");
+
+                // Insert on page
+                /*var resultDiv = document.getElementById("imgResultDiv");
+                canvas.classList.add("img-result");
+                resultDiv.insertBefore(canvas, resultDiv.firstChild);//*/
+
+                // Transform to blob and upload
+                var blob = dataURLToBlob(dataURL);
+                uploadImageAsBlob(blob);
+
+                // In order to trigger again onchange
+                document.getElementById('btn-click-photo-os').value = null;
+            },
+            {
+                maxWidth: 1000,
+                //maxWidth: 1000,
+                //minHeight: 1000,
+                canvas: true,
+                orientation: true
+            }
+        );
+        if (!loadingImage) {
+            console.log("Error, image not loaded");
+        }
+    }
+
+    /*-- --*/
+
+    function uploadImageAsBlob(blob) {
+
+        //var blobFile = document.getElementById("btn-click-photo-os").files[0];
+        var formData = new FormData();
+        formData.append("biosync_image", blob);
+        //formData.append("name", document.getElementById("name").value);
+
+        $.ajax({
+            url: "/image",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // .. do something
+                var reply = JSON.parse(response);
+                console.log("Success! Server: " + reply.message);
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
+        });
+
+    }
 
     /* -- Web Sockets -- */
     document.addEventListener("visibilitychange", function() {
@@ -136,9 +250,17 @@
 
     }
 
-    function setStage(stage, standbyMsg) {
-
+    function setStage(_stage, standbyMsg) {
+		stage = _stage;
         switch(parseInt(stage)) {
+            case -1:
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Take a selfie";
+            	document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "";
+            	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
+                break;
             case 0:
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
@@ -148,28 +270,42 @@
             case 1:
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
-                document.getElementById("msg-standby").innerHTML = "Your saliva is being analyzed";
+                document.getElementById("msg-standby").innerHTML = "Again";
             	document.getElementById("img-result").src = "";
                 break;
             case 2:
-                document.getElementById("section-standBy").style.display = "none";
-                document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Analysis of your microbiota population";
-            	document.getElementById("msg-standby").innerHTML = "";
-            	document.getElementById("img-result").src = "img/microbiota.jpg";
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "And again";
+            	document.getElementById("img-result").src = "";
                 break;
             case 3:
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
-                document.getElementById("msg-standby").innerHTML = "Looking for a match";
+                document.getElementById("msg-standby").innerHTML = "Good<br/>Your saliva is being analyzed";
             	document.getElementById("img-result").src = "";
                 break;
             case 4:
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
+                document.getElementById("msg-top").innerHTML = "Analysis of your microbiota population";
+            	document.getElementById("btn-click-look").innerHTML = "Look for a match";
+                document.getElementById("msg-standby").innerHTML = "";
+            	document.getElementById("img-result").src = "img/microbiota.jpg";
+                break;
+            case 5:
+                document.getElementById("section-standBy").style.display = "";
+                document.getElementById("section-top").style.display = "none";
+                document.getElementById("msg-standby").innerHTML = "Looking for a complementary biotope";
+            	document.getElementById("img-result").src = "";
+                break;
+            case 6:
+                document.getElementById("section-standBy").style.display = "none";
+                document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "We have a match";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "img/plan.jpg";
+                document.getElementById("btn-click-look").innerHTML = "";
                 break;
         }
         
@@ -233,7 +369,11 @@
             </div>
 
             <div class="col-lg-12">
-                <div id="btn-click-look"  class="btn btn-lg btn-click-look" onclick="setStage(3,'')">Look for a match</div>
+            	<form>
+            		<input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
+                	<input id="name" name="name" type="text" hidden value=""/>
+				</form>
+				<div id="btn-click-look"  class="btn btn-lg btn-click-look" onclick="onClick()"></div>
 
             </div>            
             
@@ -242,15 +382,10 @@
 
     <section id="section-standBy" style="" class="container content-section text-center" style="padding:0;">
         
-        <h1 id="msg-standby">Scroll with your tongue</h1>
+        <h1 id="msg-standby"></h1>
         
     </section>
 
-
-	<section style="display:none">
-		<div id="fname"></div>
-		<div id="lname"></div>
-	</section>
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
