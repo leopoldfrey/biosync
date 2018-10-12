@@ -63,11 +63,11 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
    console.log("Receiving image..");
    var date = new Date();
 
-   var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
+   //var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
 
    var type = req.file.mimetype.split("/")[1];
    var name = req.body.name.replaceAll(" ", "_");
-   var file = __dirname + "/uploads/" + name + "_" + timeToAppend + "." + type;
+   var file = __dirname + "/uploads/" + name + /*"_" + timeToAppend +*/ "." + type;
    file = file.replaceAll(" ", "_");
    fs.readFile( req.file.path, function (err, data) {
         fs.writeFile(file, data, function (err) {
@@ -182,6 +182,23 @@ wss.on('connection', function connection(ws) {
 							type: "name",
 							stage: msg.stage,
 							standbyMsg: ""
+						}));
+				}
+        	});
+  			break;
+	    case "domatch":
+	    	console.log('domatch : '+msg.u1+' '+msg.u2);
+	    	// Broadcast
+    	    wss.clients.forEach(function each(client) {
+				if (client !== ws && client.readyState === WebSocket.OPEN) {
+					console.log("Sending name : domatch " + msg.u1 + " " + msg.u2);
+					client.send(
+						JSON.stringify(
+						{
+							charset : 'utf8mb4', 
+							type: "domatch",
+							u1: msg.u1,
+							u2: msg.u2
 						}));
 				}
         	});

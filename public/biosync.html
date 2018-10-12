@@ -193,6 +193,8 @@
             var reply = JSON.parse(e.data);
             if (reply.type == "changeState" || reply.type == "initState") {
                 setStage(reply.stage, reply.standbyMsg);
+            } else if (reply.type == "domatch" ) {
+            	doMatch(reply.u1, reply.u2);
             } else if (reply.type == "match" || reply.type == "name" ) {
                 //console.log("Unknown state received from server: " + reply.type);
             } else if (reply.type == "domatch") {
@@ -239,6 +241,18 @@
                 break;
         }
 
+    }
+    
+    function checkMatch(u1, u2) {
+    	if(u1 == name) {
+    		console.log("I DO MATCH WITH "+ u2);
+    		setStage(6,'');
+    		document.getElementById("img-result").src = "img/"+u2+".jpg";
+       } else if (u2 == name) {
+    		console.log("I DO MATCH WITH "+ u1);
+    		setStage(6,'');
+    		document.getElementById("img-result").src = "img/"+u1+".jpg";
+        }
     }
 
     function setStage(_stage, standbyMsg) {
@@ -320,7 +334,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "We have found your healing solution";
             	document.getElementById("msg-standby").innerHTML = "";
-            	document.getElementById("img-result").src = "img/plan.jpg";
+            	//document.getElementById("img-result").src = "img/plan.jpg";
                 document.getElementById("img-result").style.width = "70%";
                 document.getElementById("btn-click-look").innerHTML = "";
                 document.getElementById("btn-click-look").style.display = "none";
