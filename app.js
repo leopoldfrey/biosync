@@ -169,6 +169,7 @@ wss.on('connection', function connection(ws) {
 	    	break;
 	    case "name":
 	    	console.log('ws New user : '+msg.stage);
+	    	console.log('decode : '+decodeURIComponent(escape(msg.stage));
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
