@@ -221,7 +221,7 @@
               	}
           	});  //*/
           	
-          	sendMsg("name", encode_utf8(name));
+          	sendMsg("name", name);
 
         };
 
@@ -383,7 +383,7 @@
 		connectToWS();
         
         var temp = location.search.substring(1).split("=");
-    	name = unescape(temp[1]);
+    	name = encode_utf8(temp[1]);
     	document.getElementById("name").innerHTML = name;
     	
     	setStage(-1);
@@ -455,7 +455,7 @@
         <h1 id="msg-standby"></h1>
     </section>
 
-	<section style="display:none">
+	<section style=""><!--display:none-->
 		<div id="name"></div>
 	</section>
 
