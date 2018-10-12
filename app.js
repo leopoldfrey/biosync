@@ -153,9 +153,35 @@ wss.on('connection', function connection(ws) {
 		break;
 		case "match":
 			console.log("Ready to match width " + msg.stage);
+			// Broadcast
+    	    wss.clients.forEach(function each(client) {
+				if (client !== ws && client.readyState === WebSocket.OPEN) {
+					console.log("Sending: " + currentStage);
+					client.send(
+						JSON.stringify(
+						{
+							type: "match",
+							stage: msg.stage,
+							standbyMsg: ""
+						}));
+				}
+        	});
 	    	break;
 	    case "name":
 	    	console.log('New user : '+msg.stage);
+	    	// Broadcast
+    	    wss.clients.forEach(function each(client) {
+				if (client !== ws && client.readyState === WebSocket.OPEN) {
+					console.log("Sending: " + currentStage);
+					client.send(
+						JSON.stringify(
+						{
+							type: "name",
+							stage: msg.stage,
+							standbyMsg: ""
+						}));
+				}
+        	});
   			break;
     }
 

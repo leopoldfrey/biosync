@@ -231,8 +231,10 @@
             var reply = JSON.parse(e.data);
             if (reply.type == "changeState" || reply.type == "initState") {
                 setStage(reply.stage, reply.standbyMsg);
-            } else {
-                console.log("Unknown state received from server: " + reply.type);
+            } else if (reply.type == "match" || reply.type == "name" ) {
+                //console.log("Unknown state received from server: " + reply.type);
+            } else if (reply.type == "domatch") {
+            	// TODO CHECK NAME
             }
         };
 
