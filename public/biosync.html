@@ -42,7 +42,7 @@
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
     	
-
+    	sendMsg("name", name);
     	
     	window.onscroll = function (event) {
     		event.preventDefault();
@@ -68,10 +68,7 @@
 				}
 			}, 500);
     	
-    	};//*/
-		/*obj.addEventListener('touchmove', function(event) {
-			
-		}, false);//*/
+    	};
 		
 		if (window.File && window.FileReader && window.FormData) {
 
@@ -430,7 +427,7 @@
             
         </div>
         
-		<div id="section-bottom" style="display: none;">
+		<div id="section-bottom" style="display: none; font-size: 20px;">
 		Join <span id="match_name" style="text-transform: uppercase;">John Doe</span> and sync now<br/>
     	Maximum distance : 50cm<br/>
     	Minimum duration : 5mn
