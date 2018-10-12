@@ -246,10 +246,32 @@
     		console.log("I DO MATCH WITH "+ u2);
     		setStage(6,'');
     		document.getElementById("img-result").src = "img/"+u2+".jpg";
+
+    		var fs = require('fs');
+			fs.readdirSync('/uploads/', function(err, items) {
+				//console.log(items);
+				for(var i=0 ; i < items.length ; i++) {
+					console.log(items[i]);
+					if(items[i].includes(u2))
+						document.getElementById("img-result").src = "img/"+items[i];
+				}
+			});
+			
        } else if (u2 == name) {
     		console.log("I DO MATCH WITH "+ u1);
     		setStage(6,'');
-    		document.getElementById("img-result").src = "img/"+u1+".jpg";
+    		
+    		var fs = require('fs');
+			fs.readdirSync('/uploads/', function(err, items) {
+				//console.log(items);
+				for(var i=0 ; i < items.length ; i++) {
+					console.log(items[i]);
+					if(items[i].includes(u1))
+						document.getElementById("img-result").src = "img/"+items[i];
+				}
+			});
+			
+    		
         }
     }
 
