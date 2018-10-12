@@ -28,6 +28,11 @@ h6 {
   //font-weight: 700;
   letter-spacing: 1px;
 }
+
+h1 {
+	font-size: 25px;
+}
+
 p {
   margin: 0 0 25px;
   font-size: 18px;

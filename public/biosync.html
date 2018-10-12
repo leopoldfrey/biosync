@@ -279,7 +279,7 @@
             case -1:
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Take a selfie";
+                document.getElementById("msg-top").innerHTML = "Identification";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
             	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
@@ -320,8 +320,8 @@
             case 4:
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Microbiota population";
-            	document.getElementById("btn-click-look").innerHTML = "Look for a match";
+                document.getElementById("msg-top").innerHTML = "Analysis of your Microbiota population";
+            	document.getElementById("btn-click-look").innerHTML = "Biosync";
                 document.getElementById("msg-standby").innerHTML = "";
                 var rnd = Math.round(Math.random()*42);
                 var str = "img/micro_"+rnd+".jpg";
@@ -333,7 +333,7 @@
             case 5:
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "Looking for a complementary biotope";
+                document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
             	document.getElementById("img-result").src = "img/loading.gif";
                 document.getElementById("img-result").style.width = "40px";
                 document.getElementById("btn-click-look").style.display = "none";
@@ -342,12 +342,17 @@
             case 6:
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
-                document.getElementById("msg-top").innerHTML = "We have a match";
+                document.getElementById("msg-top").innerHTML = "We have found your healing solution.";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "img/plan.jpg";
                 document.getElementById("img-result").style.width = "50%";
                 document.getElementById("btn-click-look").innerHTML = "";
                 document.getElementById("btn-click-look").style.display = "none";
+                // PHOTO + NOM
+                // TEXTE DESSOUS :
+                // Join now and sync now
+                // Max distance 50cm
+                // Minimum duration 5mn 
                 break;
         }
         
