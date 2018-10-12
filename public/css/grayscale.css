@@ -25,7 +25,7 @@ h6 {
   text-transform: uppercase;
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 100;
-  //font-weight: 700;
+  /*font-weight: 700;*/
   letter-spacing: 1px;
 }
 
@@ -46,7 +46,7 @@ p {
   }
 }
 a {
-  //color: #42DCA3;
+  /*color: #42DCA3;*/
   color: white;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
@@ -64,7 +64,7 @@ a:focus {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-  //font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: black;
 }
@@ -133,7 +133,7 @@ a:focus {
   padding: 100px 0;
   text-align: center;
   color: white;
-  //background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
+  /*background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;*/
   background-color: black;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -259,28 +259,29 @@ a:focus {
 }
 .btn {
   text-transform: uppercase;
-  //font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
   font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   border-radius: 0;
+  color: rgba(255, 255, 255, 0.2);
 }
 .btn-default {
-  //border: 1px solid #42DCA3;
+  /*border: 1px solid #42DCA3;*/
   border: 1px solid black;
-  //color: #42DCA3;
+  /*color: #42DCA3;*/
   color: black;
   background-color: transparent;
 }
 .btn-default:hover,
 .btn-default:focus {
-  //border: 1px solid #42DCA3;
+  /*border: 1px solid #42DCA3;*/
   border: 1px solid white;
   outline: none;
   color: black;
-  //background-color: #42DCA3;
+  /*background-color: #42DCA3;*/
   background-color: white;
 }
 ul.banner-social-buttons {
