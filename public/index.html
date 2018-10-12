@@ -54,7 +54,7 @@
               }
           });
 
-		var loc = '/biosync.html?name=' + document.getElementById("name").value;
+		var loc = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");;
 
 		console.log("LOC : "+loc);
 		
