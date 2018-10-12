@@ -32,8 +32,6 @@
     //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     var wsServer = "wss://" + window.location.hostname + "/wss";
 
-    var isScrolling;
-
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -46,12 +44,10 @@
     	
 
     	
-    	window.onscroll = function (event) {
+    	document.onscroll = function (event) {
     		event.preventDefault();
-    		window.clearTimeout( isScrolling );
-
-			// Set a timeout to run after scrolling ends
-			isScrolling = setTimeout(function() {
+    		
+			setTimeout(function() {
 
 				// Run the callback
 				console.log( 'Scrolling has stopped.' );
@@ -71,7 +67,7 @@
 				}
 			}
 
-			}, 66);
+			}, 500);
     	
     	};//*/
 		/*obj.addEventListener('touchmove', function(event) {
