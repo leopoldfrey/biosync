@@ -7,6 +7,7 @@ var path        = require("path");
 var WebSocket   = require("ws");
 var WebSocketServer   = WebSocket.Server;
 var bodyParser  = require("body-parser");
+var utf8 = require('utf8');
 
 var app         =   express();
 var server = http.createServer(app);
@@ -168,11 +169,11 @@ wss.on('connection', function connection(ws) {
         	});
 	    	break;
 	    case "name":
-	    	console.log('ws New user : '+msg.stage);
+	    	console.log('ws New user : '+utf8.encode(msg.stage));
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending name : " + msg.stage);
+					console.log("Sending name : " + utf8.encode(msg.stage));
 					client.send(
 						JSON.stringify(
 						{
