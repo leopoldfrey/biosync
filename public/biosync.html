@@ -35,9 +35,9 @@
 				})
 			, function (err) {
 				if (err) {
-					console.log("Error sending message");
+					console.log("- Error sending message");
 				} else {
-					console.log("Success sending message");
+					console.log("- Success sending message "+ _type);
 				}
 			
 			});
@@ -124,7 +124,7 @@
             }
         );
         if (!loadingImage) {
-            console.log("Error, image not loaded");
+            console.log("* Error, image not loaded");
         }
         setStage(0,'');
     }
@@ -138,6 +138,8 @@
 
     function uploadImageAsBlob(blob) {
 
+    	console.log("| Upload blob");
+            
         var formData = new FormData();
         formData.append("biosync_image", blob);
         formData.append("name", document.getElementById("name").innerHTML);
@@ -151,10 +153,10 @@
             success: function(response) {
                 // .. do something
                 var reply = JSON.parse(response);
-                console.log("Success! Server: " + reply.message);
+                console.log("- Success! Server: " + reply.message);
             },
             error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
+                console.log("* "+errorMessage); // Optional
             }
         });
 
@@ -189,7 +191,7 @@
 
         // Log messages from the server
         ws.onmessage = function (e) {
-            console.log("Received message: " + e.data);
+            console.log("| WS Received message: " + e.data);
             var reply = JSON.parse(e.data);
             if (reply.type == "changeState" || reply.type == "initState") {
                 setStage(reply.stage, reply.standbyMsg);
@@ -206,16 +208,10 @@
         };
 
         ws.onopen = function (event) {
-            console.log("Connected to ws server");
-
-            /*$.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
-            	if(data==="ok") {
-            		console.log("Success sending name");
-              	}
-          	});  //*/
+            console.log("- Connected to ws server");
           	
           	sendMsg("name", name);
-          	console.log("Sending /name "+name);
+          	console.log("- Sending /name "+name);
 
         };
 
@@ -225,16 +221,16 @@
     function checkWSStateAndReconnectIfNecessary(wsReadyState) {
         switch(wsReadyState) {
             case ws.CONNECTING:
-                console.log("WebSocket Connecting...");
+                console.log("- WebSocket Connecting...");
                 break;
             case ws.OPEN:
-                console.log("WebSocket Open :)");
+                console.log("- WebSocket Open :)");
                 break;
             case ws.CLOSING:
-                console.log("WebSocket Closing...");
+                console.log("- WebSocket Closing...");
                 break;
             case ws.CLOSED:
-                console.log("WebSocket Closed :(");
+                console.log("* WebSocket Closed :(");
                 connectToWS();
                 break;
         }
@@ -243,16 +239,16 @@
     
     function checkMatch(u1, u2) {
     	if(u1 == name) {
-    		console.log("I DO MATCH WITH "+ u2);
+    		//console.log("I DO MATCH WITH "+ u2);
     		setStage(6,'');
     		document.getElementById("img-result").src = "uploads/"+u2+".jpeg";
-    		document.getElementById("img-result").height = "500";
+    		//document.getElementById("img-result").height = "500";
     		document.getElementById("match_name").innerHTML = u2;
        } else if (u2 == name) {
-    		console.log("I DO MATCH WITH "+ u1);
+    		//console.log("I DO MATCH WITH "+ u1);
     		setStage(6,'');
     		document.getElementById("img-result").src = "uploads/"+u1+".jpeg";
-    		document.getElementById("img-result").height = "500";
+    		//document.getElementById("img-result").height = "500";
     		document.getElementById("match_name").innerHTML = u1;
         }
     }
@@ -315,7 +311,7 @@
                 document.getElementById("msg-standby").innerHTML = "";
                 var rnd = Math.round(Math.random()*42);
                 var str = "img/micro_"+rnd+".jpg";
-                console.log(str);
+                //console.log(str);
             	document.getElementById("img-result").src = str;
                 document.getElementById("img-result").style.width = "70%";
                 document.getElementById("btn-click-look").style.display = "";
@@ -376,6 +372,23 @@
 			}, 500);
     	
     	};
+    	
+    	window.ondblclick = function (event) {
+    		event.preventDefault();
+    		switch (stage) {
+				case 0:
+					setStage(1,'');
+					break;
+				case 1:
+					setStage(2,'');
+					break;
+				case 2:
+					setStage(3,'');
+					break;
+				default:
+					break;
+			}
+    	}
 		
 		if (window.File && window.FileReader && window.FormData) {
 
@@ -404,6 +417,7 @@
     <style>
     .img-result {
         width:50%;
+        max-height: 500px;
         height:auto;
     }
 
@@ -438,7 +452,7 @@
         <div class="row">
 
             <div id="imgResultDiv" class="col-lg-12" style="margin-bottom: 40px">
-                <img id="img-result" width="300" src=""></img>
+                <img id="img-result" src=""></img>
             </div>
 
             <div class="col-lg-12">

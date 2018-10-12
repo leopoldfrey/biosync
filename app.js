@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 server.listen(port,function() {
-    console.log("Web Server listening port " + port);
+    console.log("| Web Server listening port " + port);
 });
 /*----------- Static Files -----------*/
 
@@ -60,7 +60,7 @@ String.prototype.replaceAll = function(search, replacement) {
 var upload = multer({ dest: '/tmp' })
 
 app.post('/image', upload.single("biosync_image"), function (req, res) {
-   console.log("Receiving image..");
+   console.log('| Server received /image');
    var date = new Date();
 
    //var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
@@ -78,13 +78,13 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
                    filename: req.file.originalname
               };
          }else{
-               console.log("Image saved");
+               console.log("- Image saved");
                response = {
                    message: 'File uploaded successfully',
                    filename: req.file.originalname
               };
 
-              wss.clients.forEach(function each(client) {
+              /*wss.clients.forEach(function each(client) {
                 if (client !== wss && client.readyState === WebSocket.OPEN) {
                   console.log("Sending new img upload");
                   client.send(
@@ -95,7 +95,7 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
                       standbyMsg: file
                     }));
                 }
-              });
+              });//*/
           }
           res.end( JSON.stringify( response ) );
        });
@@ -105,12 +105,11 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
 /*----------- Name receive -----------*/
 // https://codeforgeek.com/2014/09/handle-get-post-request-express-4/
 app.post('/name', function (req, res) {
-  console.log("Server received /name");
-
+  console.log('| Server received /name');
   if (req.body.name) {
-  	console.log('/name New user : '+req.body.name);
+  	console.log('- New user : '+req.body.name);
   } else {
-    console.log("Error: invalid name received");  
+    console.log("* Error: invalid name received");  
   }
   
   res.end("ok");
@@ -128,7 +127,7 @@ var currentStandbyMessage = "Take a Selfie";
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('WebSocket received : %s', message);
+    console.log('| WebSocket received : %s', message);
 
     var msg = JSON.parse(message);
     
@@ -137,10 +136,11 @@ wss.on('connection', function connection(ws) {
         	currentStage = msg.stage;
         	currentStandbyMessage = msg.standbyMsg;
 
-	        // Broadcast
+	        console.log("- BROADCAST " + msg.stage);
+			// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending: " + currentStage);
+					//console.log("Sending: " + currentStage);
 					client.send(
 						JSON.stringify(
 						{
@@ -153,11 +153,11 @@ wss.on('connection', function connection(ws) {
         	});
 			break;
 		case "match":
-			console.log("Ready to match width " + msg.stage);
+			console.log("- MATCH " + msg.stage);
 			// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending match : " + msg.stage);
+					//console.log("Sending match : " + msg.stage);
 					client.send(
 						JSON.stringify(
 						{
@@ -170,11 +170,11 @@ wss.on('connection', function connection(ws) {
         	});
 	    	break;
 	    case "name":
-	    	console.log('ws New user : '+msg.stage);
+	    	console.log('- NAME : '+msg.stage);
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending name : " + msg.stage);
+					//console.log("Sending name : " + msg.stage);
 					client.send(
 						JSON.stringify(
 						{
@@ -187,11 +187,11 @@ wss.on('connection', function connection(ws) {
         	});
   			break;
 	    case "domatch":
-	    	console.log('domatch : '+msg.u1+' '+msg.u2);
+	    	console.log('- DOMATCH : '+msg.u1+' '+msg.u2);
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending name : domatch " + msg.u1 + " " + msg.u2);
+					//console.log("Sending name : domatch " + msg.u1 + " " + msg.u2);
 					client.send(
 						JSON.stringify(
 						{
@@ -202,6 +202,9 @@ wss.on('connection', function connection(ws) {
 						}));
 				}
         	});
+  			break;
+  		default:
+  			console.log('* ignored : '+msg.type);
   			break;
     }
 

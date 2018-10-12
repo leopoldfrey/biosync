@@ -50,17 +50,11 @@
 
         $.post("/name",{name: document.getElementById("name").value}, function(data){
             if(data==="ok") {
-                console.log("Success sending name");
+                console.log("- Success sending name");
               }
           });
 
-		var loc = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");;
-
-		console.log("LOC : "+loc);
-		
-        window.location.href = loc;
-        
-        //document.getElementById("idform").submit();
+		window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
     }
 
     </script>
