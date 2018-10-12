@@ -277,6 +277,7 @@
 		stage = _stage;
         switch(parseInt(stage)) {
             case -1:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Identification";
@@ -286,6 +287,7 @@
                 document.getElementById("btn-click-look").style.display = "";
                 break;
             case 0:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Scroll With Your Tongue";
@@ -293,6 +295,7 @@
                 document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 1:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Again";
@@ -300,6 +303,7 @@
                 document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 2:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "";
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "And again";
@@ -307,6 +311,7 @@
                 document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 3:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
@@ -318,6 +323,7 @@
 				}, 3000);
                 break;
             case 4:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Analysis of your Microbiota population";
@@ -331,6 +337,7 @@
                 document.getElementById("btn-click-look").style.display = "";
                 break;
             case 5:
+                document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
@@ -340,6 +347,7 @@
                 sendMsg("match", document.getElementById("name").innerHTML);
                 break;
             case 6:
+                document.getElementById("section-bottom").style.display = "";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "We have found your healing solution";
@@ -431,6 +439,13 @@
         <h1 id="msg-standby"></h1>
         
     </section>
+
+	<section id="section-bottom" style="display: none;" class="container content-section text-center" style="padding:0;">
+	<p>
+	Join now <span id="match_name" style="text-transform: uppercase;">John Doe</span> and sync now<br/>
+    Maximum distance : 50cm<br/>
+    Minimum duration : 5mn</p>
+	</section>
 
 	<section style="display:none">
 		<div id="name"></div>
