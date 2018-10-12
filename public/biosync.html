@@ -246,10 +246,14 @@
     		console.log("I DO MATCH WITH "+ u2);
     		setStage(6,'');
     		document.getElementById("img-result").src = "uploads/"+u2+".jpeg";
+    		document.getElementById("img-result").height = "500px";
+    		document.getElementById("match_name").innerHTML = u2;
        } else if (u2 == name) {
     		console.log("I DO MATCH WITH "+ u1);
     		setStage(6,'');
     		document.getElementById("img-result").src = "uploads/"+u1+".jpeg";
+    		document.getElementById("img-result").height = "500px";
+    		document.getElementById("match_name").innerHTML = u1;
         }
     }
 
