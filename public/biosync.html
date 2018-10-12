@@ -321,6 +321,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
             	document.getElementById("img-result").src = "img/loading.gif";
+                document.getElementById("img-result").width = "20";
                 document.getElementById("btn-click-look").style.display = "none";
                 setTimeout(function() {
 					setStage(4,'');
@@ -343,6 +344,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Looking for a complementary biotope";
             	document.getElementById("img-result").src = "img/loading.gif";
+                document.getElementById("img-result").width = "20";
                 document.getElementById("btn-click-look").style.display = "none";
                 sendMsg("match", document.getElementById("name").innerHTML);
                 break;
