@@ -32,6 +32,8 @@
     //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     var wsServer = "wss://" + window.location.hostname + "/wss";
 
+    var isScrolling;
+
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -42,9 +44,18 @@
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
     	
+
+    	
     	window.onscroll = function (event) {
     		event.preventDefault();
-    		if (document.body.scrollTop > 50) {
+    		window.clearTimeout( isScrolling );
+
+			// Set a timeout to run after scrolling ends
+			isScrolling = setTimeout(function() {
+
+				// Run the callback
+				console.log( 'Scrolling has stopped.' );
+				if (document.body.scrollTop > 50) {
 				switch (stage) {
 					case 0:
 						setStage(1,'');
@@ -59,6 +70,8 @@
 						break;
 				}
 			}
+
+			}, 66);
     	
     	};//*/
 		/*obj.addEventListener('touchmove', function(event) {
