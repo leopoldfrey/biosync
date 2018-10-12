@@ -24,6 +24,27 @@
     
     <script>
 
+	function sendMsg(_type, _message) {
+		try {
+			ws.send(
+				JSON.stringify(
+				{
+					type: _type,
+					stage: _message
+				})
+			, function (err) {
+				if (err) {
+					console.log("Error sending message");
+				} else {
+					console.log("Success sending message");
+				}
+			
+			});
+		} catch (err) {
+			console.log("Error sending message : "+err);
+		}
+	}
+
 	stage = -1;
 
     //const port = location.PORT || 3000;
@@ -31,63 +52,6 @@
 	var ws;
     //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
     var wsServer = "wss://" + window.location.hostname + "/wss";
-
-    /* Onload */
-    document.addEventListener("DOMContentLoaded", function(event) {
-
-        // Buttons
-        document.getElementById("btn-click-look").onclick = onClick;
-        
-    	var temp = location.search.substring(1).split("=");
-    	name = unescape(temp[1]);
-    	document.getElementById("name").innerHTML = name;
-    	
-    	sendMsg("name", name);
-    	
-    	window.onscroll = function (event) {
-    		event.preventDefault();
-    		
-			setTimeout(function() {
-
-				// Run the callback
-				//console.log( 'Scrolling has stopped.' );
-				if (document.body.scrollTop > 15) {
-					switch (stage) {
-						case 0:
-							setStage(1,'');
-							break;
-						case 1:
-							setStage(2,'');
-							break;
-						case 2:
-							setStage(3,'');
-							break;
-						default:
-							break;
-					}
-				}
-			}, 500);
-    	
-    	};
-		
-		if (window.File && window.FileReader && window.FormData) {
-
-            document.getElementById("btn-click-photo-os").onchange = function (event) {
-
-                // Resize image and upload
-                resizeAndUpload();
-
-            };
-
-        } else {
-            alert("File upload is not supported!");
-        }
-		
-		setStage(-1);
-    
-        connectToWS();
-
-    });
     
     function onClick() {
 		switch (stage) {
@@ -357,25 +321,64 @@
                 document.getElementById("btn-click-look").style.display = "none";
                 break;
         }
-        
-        function sendMsg(_type, _message) {
-        	ws.send(
-                JSON.stringify(
-                {
-                    type: _type,
-                    stage: _message
-                })
-            , function (err) {
-                if (err) {
-                    console.log("Error sending message");
-                } else {
-                    console.log("Success sending message");
-                }
-                
-            });
-    	}
             
     }
+    
+        /* Onload */
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        // Buttons
+        document.getElementById("btn-click-look").onclick = onClick;
+        
+    	var temp = location.search.substring(1).split("=");
+    	name = unescape(temp[1]);
+    	document.getElementById("name").innerHTML = name;
+    	
+    	window.onscroll = function (event) {
+    		event.preventDefault();
+    		
+			setTimeout(function() {
+
+				// Run the callback
+				//console.log( 'Scrolling has stopped.' );
+				if (document.body.scrollTop > 15) {
+					switch (stage) {
+						case 0:
+							setStage(1,'');
+							break;
+						case 1:
+							setStage(2,'');
+							break;
+						case 2:
+							setStage(3,'');
+							break;
+						default:
+							break;
+					}
+				}
+			}, 500);
+    	
+    	};
+		
+		if (window.File && window.FileReader && window.FormData) {
+
+            document.getElementById("btn-click-photo-os").onchange = function (event) {
+
+                // Resize image and upload
+                resizeAndUpload();
+
+            };
+
+        } else {
+            alert("File upload is not supported!");
+        }
+		
+		connectToWS();
+        
+        setStage(-1);
+    
+        sendMsg("name", name);
+    });
 
     </script>
 
