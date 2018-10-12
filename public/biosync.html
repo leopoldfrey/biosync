@@ -42,7 +42,7 @@
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
     
-    	window.onscroll = function (event) {
+    	window.ontouchmove = function (event) {
     		event.preventDefault();
     		console.log("TOUCHMOVE !!! "+event.changedTouches);
 			switch (stage) {
