@@ -154,6 +154,9 @@ wss.on('connection', function connection(ws) {
 		case "match":
 			console.log("Ready to match width " + msg.stage);
 	    	break;
+	    case "name":
+	    	console.log('New user : '+msg.stage);
+  			break;
     }
 
 

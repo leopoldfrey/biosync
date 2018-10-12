@@ -51,7 +51,7 @@
 
 				// Run the callback
 				//console.log( 'Scrolling has stopped.' );
-				if (document.body.scrollTop > 25) {
+				if (document.body.scrollTop > 15) {
 					switch (stage) {
 						case 0:
 							setStage(1,'');
@@ -244,21 +244,11 @@
         ws.onopen = function (event) {
             console.log("Connected to ws server");
 
-            ws.send(
-                JSON.stringify(
-                {
-                    type:"getInit",
-                    stage:""
-                })
-            , function (err) {
-                if (err) {
-                    console.log("Error sending init");
-                } else {
-                    console.log("Success sending init");
-                }
-                
-            });
-            
+            $.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
+            	if(data==="ok") {
+            		console.log("Success sending name");
+              	}
+          	});  
         };
 
     }
