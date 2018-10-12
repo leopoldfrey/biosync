@@ -47,7 +47,7 @@
 		   ts = e.originalEvent.touches[0].clientY;
 		});
 
-		$(document).bind('touchend', function (e){
+		$(document).bind('touchmove', function (e){
 		   var te = e.originalEvent.changedTouches[0].clientY;
 		   sendMsg("touchdist", te - ts);
 		   /*if(ts > te+5){
