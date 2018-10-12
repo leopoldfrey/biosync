@@ -144,6 +144,7 @@ wss.on('connection', function connection(ws) {
 					client.send(
 						JSON.stringify(
 						{
+							charset : 'utf8mb4', 
 							type: "changeState",
 							stage: currentStage,
 							standbyMsg: currentStandbyMessage
@@ -160,6 +161,7 @@ wss.on('connection', function connection(ws) {
 					client.send(
 						JSON.stringify(
 						{
+							charset : 'utf8mb4', 
 							type: "match",
 							stage: msg.stage,
 							standbyMsg: ""
@@ -176,6 +178,7 @@ wss.on('connection', function connection(ws) {
 					client.send(
 						JSON.stringify(
 						{
+							charset : 'utf8mb4', 
 							type: "name",
 							stage: msg.stage,
 							standbyMsg: ""
