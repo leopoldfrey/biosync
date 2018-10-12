@@ -42,36 +42,22 @@
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
     	
-    	var ts;
-		window.ontouchstart = function (e) {
-		   ts = e.originalEvent.touches[0].clientY;
-		};
-
-		window.ontouchmove = function (e) {
-		   var te = e.originalEvent.changedTouches[0].clientY;
-		   sendMsg("touchdist", te - ts);
-		   /*if(ts > te+5){
-			  slide_down();
-		   }else if(ts < te-5){
-			  slide_up();
-		   }//*/
-		};
-    /*
-    	window.ontouchmove = function (event) {
+    	window.onscroll = function (event) {
     		event.preventDefault();
-    		console.log("TOUCHMOVE !!! "+event.changedTouches);
-			switch (stage) {
-				case 0:
-					setStage(1,'');
-					break;
-				case 1:
-					setStage(2,'');
-					break;
-				case 2:
-					setStage(3,'');
-					break;
-				default:
-					break;
+    		if (document.body.scrollTop > 50) {
+				switch (stage) {
+					case 0:
+						setStage(1,'');
+						break;
+					case 1:
+						setStage(2,'');
+						break;
+					case 2:
+						setStage(3,'');
+						break;
+					default:
+						break;
+				}
 			}
     	
     	};//*/
