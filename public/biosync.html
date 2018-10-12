@@ -26,17 +26,17 @@
 
 	stage = -1;
 
-    const port = location.PORT || 3000;
+    //const port = location.PORT || 3000;
 
 	var ws;
     //var wsServer = "ws://" + window.location.hostname + ":" + port;// + "/ws";
-    var wsServer = "wss://" + window.location.hostname + ":" + port + "/wss";
+    var wsServer = "wss://" + window.location.hostname + ":" + location.PORT + "/wss";
 
     /* Onload */
     document.addEventListener("DOMContentLoaded", function(event) {
 
         // Buttons
-        document.getElementById("btn-click-look").onclick = clickPhotoButton;
+        document.getElementById("btn-click-look").onclick = onClick;
         
     	var temp = location.search.substring(1).split("=");
     	name = unescape(temp[1]);
@@ -141,10 +141,10 @@
 
     /*-- --*/
 
-    function clickPhotoButton(e) {
+    /*function clickPhotoButton(e) {
         // Click the actual hidden button
         document.getElementById("btn-click-photo-os").click();
-    }
+    }//*/
 
     function uploadImageAsBlob(blob) {
 
@@ -375,7 +375,7 @@
             </div>
 
             <div class="col-lg-12">
-                <input id="btn-click-photo-os" name="biosyn_image" type="file" accept="image/*" style="display:none">
+                <input id="btn-click-photo-os" name="biosync_image" type="file" accept="image/*" style="display:none">
                 <div id="btn-click-look"  class="btn btn-lg btn-click-look">TAKE A<br>PHOTO</div>
                 
             </div>            
