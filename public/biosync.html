@@ -314,7 +314,8 @@
     		var resultDiv = document.getElementById("avatar-div-id");
     		var newimg = document.createElement("img");
     		newimg.src = "uploads/"+u2+".jpeg";
-    		resultDiv.replaceChild(newimg, resultDiv.firstChild);
+    		newimg.classList.add("avatar-canvas");
+	        resultDiv.replaceChild(newimg, resultDiv.firstChild);
 			    
     		document.getElementById("match_name").innerHTML = u2.replace(/_/g, " ");
        } else if (u2 == name) {
@@ -324,7 +325,8 @@
     		var resultDiv = document.getElementById("avatar-div-id");
     		var newimg = document.createElement("img");
     		newimg.src = "uploads/"+u1+".jpeg";
-    		resultDiv.replaceChild(newimg, resultDiv.firstChild);
+    		newimg.classList.add("avatar-canvas");
+	        resultDiv.replaceChild(newimg, resultDiv.firstChild);
 			
     		document.getElementById("match_name").innerHTML = u1.replace(/_/g, " ");
         }
