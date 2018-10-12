@@ -133,38 +133,27 @@ wss.on('connection', function connection(ws) {
     var msg = JSON.parse(message);
     
     switch(msg.type) {
-      case "broadcast":
-        currentStage = msg.stage;
-        currentStandbyMessage = msg.standbyMsg;
+		case "broadcast":
+        	currentStage = msg.stage;
+        	currentStandbyMessage = msg.standbyMsg;
 
-        // Broadcast
-        wss.clients.forEach(function each(client) {
-          if (client !== ws && client.readyState === WebSocket.OPEN) {
-            console.log("Sending: " + currentStage);
-            client.send(
-              JSON.stringify(
-              {
-                type: "changeState",
-                stage: currentStage,
-                standbyMsg: currentStandbyMessage
-              }));
-          }
-        });
-
-      break;
-
-      case "getInit":
-        // Reply with state
-        /*console.log("Replying with: " + currentStage);
-        this.send( 
-        JSON.stringify(
-        {
-          type: "initState",
-          stage: currentStage,
-          standbyMsg: currentStandbyMessage
-        }));//*/
-
-      break;
+	        // Broadcast
+    	    wss.clients.forEach(function each(client) {
+				if (client !== ws && client.readyState === WebSocket.OPEN) {
+					console.log("Sending: " + currentStage);
+					client.send(
+						JSON.stringify(
+						{
+							type: "changeState",
+							stage: currentStage,
+							standbyMsg: currentStandbyMessage
+						}));
+				}
+        	});
+		break;
+		case "touchdist":
+			console.log("Touch Distance : " + msg.stage);
+	    	break;
     }
 
 

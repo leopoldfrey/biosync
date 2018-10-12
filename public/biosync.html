@@ -41,7 +41,22 @@
     	var temp = location.search.substring(1).split("=");
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
-    
+    	
+    	var ts;
+		$(document).bind('touchstart', function (e){
+		   ts = e.originalEvent.touches[0].clientY;
+		});
+
+		$(document).bind('touchend', function (e){
+		   var te = e.originalEvent.changedTouches[0].clientY;
+		   sendMsg("touchdist", te - ts);
+		   /*if(ts > te+5){
+			  slide_down();
+		   }else if(ts < te-5){
+			  slide_up();
+		   }//*/
+		});
+    /*
     	window.ontouchmove = function (event) {
     		event.preventDefault();
     		console.log("TOUCHMOVE !!! "+event.changedTouches);
@@ -59,7 +74,7 @@
 					break;
 			}
     	
-    	};
+    	};//*/
 		/*obj.addEventListener('touchmove', function(event) {
 			
 		}, false);//*/
@@ -341,18 +356,18 @@
                 break;
         }
         
-        function sendMsg() {
+        function sendMsg(_type, _message) {
         	ws.send(
                 JSON.stringify(
                 {
-                    type:"getInit",
-                    stage:""
+                    type: _type,
+                    stage: _message
                 })
             , function (err) {
                 if (err) {
-                    console.log("Error sending init");
+                    console.log("Error sending message");
                 } else {
-                    console.log("Success sending init");
+                    console.log("Success sending message");
                 }
                 
             });
