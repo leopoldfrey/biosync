@@ -207,11 +207,14 @@
         ws.onopen = function (event) {
             console.log("Connected to ws server");
 
-            $.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
+            /*$.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
             	if(data==="ok") {
             		console.log("Success sending name");
               	}
-          	});  
+          	});  //*/
+          	
+          	sendMsg("name", name);
+
         };
 
     }
@@ -376,8 +379,6 @@
     	document.getElementById("name").innerHTML = name;
     	
     	setStage(-1);
-    
-        sendMsg("mummy", name);
     });
 
     </script>
