@@ -108,7 +108,7 @@ app.post('/name', function (req, res) {
   console.log("Receiving username..");
 
   if (req.body.name) {
-  	console.log('New user : '+req.body.name);
+  	console.log('/name New user : '+req.body.name);
   } else {
     console.log("Error: invalid name received");  
   }
@@ -168,7 +168,7 @@ wss.on('connection', function connection(ws) {
         	});
 	    	break;
 	    case "name":
-	    	console.log('New user : '+msg.stage);
+	    	console.log('ws New user : '+msg.stage);
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
