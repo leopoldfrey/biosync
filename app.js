@@ -105,7 +105,7 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
 /*----------- Name receive -----------*/
 // https://codeforgeek.com/2014/09/handle-get-post-request-express-4/
 app.post('/name', function (req, res) {
-  console.log("Receiving username..");
+  console.log("Server received /name");
 
   if (req.body.name) {
   	console.log('/name New user : '+req.body.name);
@@ -128,7 +128,7 @@ var currentStandbyMessage = "Take a Selfie";
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('Received: %s', message);
+    console.log('WebSocket received : %s', message);
 
     var msg = JSON.parse(message);
     
@@ -150,13 +150,13 @@ wss.on('connection', function connection(ws) {
 						}));
 				}
         	});
-		break;
+			break;
 		case "match":
 			console.log("Ready to match width " + msg.stage);
 			// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending: " + currentStage);
+					console.log("Sending match : " + msg.stage);
 					client.send(
 						JSON.stringify(
 						{
@@ -172,7 +172,7 @@ wss.on('connection', function connection(ws) {
 	    	// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
-					console.log("Sending: " + currentStage);
+					console.log("Sending name : " + msg.stage);
 					client.send(
 						JSON.stringify(
 						{

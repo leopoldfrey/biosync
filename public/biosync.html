@@ -330,10 +330,6 @@
         // Buttons
         document.getElementById("btn-click-look").onclick = onClick;
         
-    	var temp = location.search.substring(1).split("=");
-    	name = unescape(temp[1]);
-    	document.getElementById("name").innerHTML = name;
-    	
     	window.onscroll = function (event) {
     		event.preventDefault();
     		
@@ -375,9 +371,13 @@
 		
 		connectToWS();
         
-        setStage(-1);
+        var temp = location.search.substring(1).split("=");
+    	name = unescape(temp[1]);
+    	document.getElementById("name").innerHTML = name;
+    	
+    	setStage(-1);
     
-        sendMsg("name", name);
+        sendMsg("mummy", name);
     });
 
     </script>
