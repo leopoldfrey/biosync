@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <!-- guide: https://davidwalsh.name/html5-camera-video-iphone -->
 <!-- https://github.com/blueimp/JavaScript-Load-Image -->
 <head>
@@ -42,10 +42,27 @@
     	name = unescape(temp[1]);
     	document.getElementById("name").innerHTML = name;
     
-    	var obj = document.getElementById('page-top');
-		obj.addEventListener('touchmove', function(event) {
-			console.log("TOUCHMOVE !!!");
-		}, false);
+    	window.onscroll = function (event) {
+    		event.preventDefault();
+    		console.log("TOUCHMOVE !!! "+event.changedTouches);
+			switch (stage) {
+				case 0:
+					setStage(1,'');
+					break;
+				case 1:
+					setStage(2,'');
+					break;
+				case 2:
+					setStage(3,'');
+					break;
+				default:
+					break;
+			}
+    	
+    	};
+		/*obj.addEventListener('touchmove', function(event) {
+			
+		}, false);//*/
 		
 		if (window.File && window.FileReader && window.FormData) {
 
@@ -112,7 +129,8 @@
         var loadingImage = loadImage(
             event.target.files[0],
             function (canvas) {
-                var dataURL = canvas.toDataURL("image/jpeg");
+            
+            	var dataURL = canvas.toDataURL("image/jpeg");
 
                 // Insert on page
                 /*var resultDiv = document.getElementById("imgResultDiv");
@@ -137,6 +155,7 @@
         if (!loadingImage) {
             console.log("Error, image not loaded");
         }
+        setStage(0,'');
     }
 
     /*-- --*/
@@ -148,11 +167,10 @@
 
     function uploadImageAsBlob(blob) {
 
-        //var blobFile = document.getElementById("btn-click-photo-os").files[0];
         var formData = new FormData();
         formData.append("biosync_image", blob);
-        //formData.append("name", document.getElementById("name").innerHTML);
-
+        formData.append("name", document.getElementById("name").innerHTML);
+		
         $.ajax({
             url: "/image",
             type: "POST",

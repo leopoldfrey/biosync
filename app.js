@@ -65,9 +65,9 @@ app.post('/image', upload.single("biosync_image"), function (req, res) {
 
    var timeToAppend = date.getHours() + "h" + date.getMinutes() + "m" +  date.getSeconds() + "s" + date.getMilliseconds();
 
-   //var file = __dirname + "/uploads/" + timeToAppend + "_" + currentStage + "_" +  req.file.originalname;
    var type = req.file.mimetype.split("/")[1];
-   var file = __dirname + "/uploads/" + timeToAppend + "_" + currentStage + "_" + req.file.originalname + "." + type;
+   var name = req.body.name.replaceAll(" ", "_");
+   var file = __dirname + "/uploads/" + name + "_" + timeToAppend + "." + type;
    file = file.replaceAll(" ", "_");
    fs.readFile( req.file.path, function (err, data) {
         fs.writeFile(file, data, function (err) {
