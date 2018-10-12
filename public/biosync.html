@@ -22,6 +22,76 @@
     <!-- Img processing from phone -->
     <script src="js/load-image.all.min.js"></script>
     
+    <style>
+    .btn-click-look {
+        background-color: white;
+        color: gray;
+        border: 1px solid lightgray;
+        height: 40px;
+        /*position: fixed;*/
+        bottom: 40px;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 15px;
+        /*color: rgba(255, 255, 255, 0.2)*/
+    }
+    
+    #img-loading {
+    	position: relative;
+		top: 50%;
+		transform: translate(0%, -50%);
+    }
+    
+    #img-result {
+        /*width:50%;
+        max-height: 500px;
+        height:auto;//*/
+    	/*margin-left: auto;
+    	margin-right: auto;
+  		position: absolute;
+  		min-width: 400px;
+  		min-height: 100%;//*/
+  		
+  		height:400px;
+		min-width:100%;
+		max-width:none;
+		margin: 0 -50%;
+    }
+
+    #imgResultDiv {
+    	width: 400px;
+    	height: 400px;
+    	text-align: center;
+		
+    	margin: 0 auto;
+  		overflow: hidden;
+  		position: relative;
+  		
+  		margin-bottom: 40px;
+    }
+    
+    .avatar-div {
+    	border-radius: 200px;
+		height:400px;
+		width:400px;
+		overflow:hidden;
+		text-align: center;
+		margin:0 auto;
+  		margin-bottom: 40px;
+    }
+    
+    .avatar-canvas {
+    	height:400px;
+		min-width:100%;
+		max-width:none;
+		position: relative;
+		left: 50%;
+	 	top: 50%;
+		transform: translate(-50%, -50%);
+    }
+
+    </style>
+    
     <script>
 
 	function sendMsg(_type, _message) {
@@ -103,10 +173,9 @@
             
             	var dataURL = canvas.toDataURL("image/jpeg");
 
-                // Insert on page
-                /*var resultDiv = document.getElementById("imgResultDiv");
-                canvas.classList.add("img-result");
-                resultDiv.insertBefore(canvas, resultDiv.firstChild);//*/
+				var resultDiv = document.getElementById("avatar-div-id");
+				canvas.classList.add("avatar-canvas");
+	            resultDiv.replaceChild(canvas, resultDiv.firstChild);
 
                 // Transform to blob and upload
                 var blob = dataURLToBlob(dataURL);
@@ -116,9 +185,10 @@
                 document.getElementById('btn-click-photo-os').value = null;
             },
             {
-                maxWidth: 1000,
-                //maxWidth: 1000,
-                //minHeight: 1000,
+                maxWidth: 400,
+                //maxHeight: 888,
+                //minWidth: 500,
+                //minHeight: 500,
                 canvas: true,
                 orientation: true
             }
@@ -126,15 +196,13 @@
         if (!loadingImage) {
             console.log("* Error, image not loaded");
         }
-        setStage(0,'');
+        setTimeout(function(){
+            setStage(0,'');
+        }, 1500);
+    	
     }
 
     /*-- --*/
-
-    /*function clickPhotoButton(e) {
-        // Click the actual hidden button
-        document.getElementById("btn-click-photo-os").click();
-    }//*/
 
     function uploadImageAsBlob(blob) {
 
@@ -241,14 +309,21 @@
     	if(u1 == name) {
     		//console.log("I DO MATCH WITH "+ u2);
     		setStage(6,'');
-    		document.getElementById("img-result").src = "uploads/"+u2+".jpeg";
-    		//document.getElementById("img-result").height = "500";
+    		/*document.getElementById("img-result").src = "uploads/"+u2+".jpeg";//*/
+    		
+    		var resultDiv = document.getElementById("avatar-div-id");
+    		var newimg = document.createElement("img");
+    		newimg.src = "uploads/"+u2+".jpeg";
+    		resultDiv.appendChild(newimg);
+                
     		document.getElementById("match_name").innerHTML = u2.replace(/_/g, " ");
        } else if (u2 == name) {
     		//console.log("I DO MATCH WITH "+ u1);
     		setStage(6,'');
-    		document.getElementById("img-result").src = "uploads/"+u1+".jpeg";
-    		//document.getElementById("img-result").height = "500";
+    		//document.getElementById("img-result").src = "uploads/"+u1+".jpeg";
+    		var resultDiv = document.getElementById("avatar-div-id");
+    		var newimg = document.createElement("img");
+    		newimg.src = "uploads/"+u1+".jpeg";
     		document.getElementById("match_name").innerHTML = u1.replace(/_/g, " ");
         }
     }
@@ -263,6 +338,9 @@
                 document.getElementById("msg-top").innerHTML = "Identification";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
+            	document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
                 document.getElementById("btn-click-look").style.display = "";
                 break;
@@ -272,7 +350,10 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Scroll With Your Tongue";
             	document.getElementById("img-result").src = "";
-                document.getElementById("btn-click-look").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 1:
                 document.getElementById("section-bottom").style.display = "none";
@@ -280,7 +361,10 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Again";
             	document.getElementById("img-result").src = "";
-                document.getElementById("btn-click-look").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 2:
                 document.getElementById("section-bottom").style.display = "none";
@@ -288,16 +372,21 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "And again";
             	document.getElementById("img-result").src = "";
-                document.getElementById("btn-click-look").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
                 break;
             case 3:
                 document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
-            	document.getElementById("img-result").src = "img/loading.gif";
-                document.getElementById("img-result").style.width = "40px";
-                document.getElementById("btn-click-look").style.display = "none";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
                 setTimeout(function() {
 					setStage(4,'');
 				}, 3000);
@@ -311,19 +400,22 @@
                 document.getElementById("msg-standby").innerHTML = "";
                 var rnd = Math.round(Math.random()*42);
                 var str = "img/micro_"+rnd+".jpg";
-                //console.log(str);
-            	document.getElementById("img-result").src = str;
-                document.getElementById("img-result").style.width = "70%";
-                document.getElementById("btn-click-look").style.display = "";
+                document.getElementById("img-result").src = str;
+				document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "";
                 break;
             case 5:
                 document.getElementById("section-bottom").style.display = "none";
                 document.getElementById("section-standBy").style.display = "none";
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
-            	document.getElementById("img-result").src = "img/loading.gif";
-                document.getElementById("img-result").style.width = "40px";
-                document.getElementById("btn-click-look").style.display = "none";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-loading").style.display = "";
+				document.getElementById("imgResultDiv").style.display = "";
+            	document.getElementById("avatar-div-id").style.display = "none";
+            	document.getElementById("btn-click-look").style.display = "none";
                 sendMsg("match", document.getElementById("name").innerHTML);
                 break;
             case 6:
@@ -332,9 +424,11 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "We have found your healing solution";
             	document.getElementById("msg-standby").innerHTML = "";
-            	//document.getElementById("img-result").src = "img/plan.jpg";
-                document.getElementById("img-result").style.width = "70%";
-                document.getElementById("btn-click-look").innerHTML = "";
+            	document.getElementById("img-result").src = "";
+                document.getElementById("img-loading").style.display = "none";
+				document.getElementById("imgResultDiv").style.display = "none";
+            	document.getElementById("avatar-div-id").style.display = "";
+            	document.getElementById("btn-click-look").innerHTML = "";
                 document.getElementById("btn-click-look").style.display = "none";
                 break;
         }
@@ -414,32 +508,6 @@
 
     </script>
 
-    <style>
-    .img-result {
-        width:50%;
-        max-height: 500px;
-        height:auto;
-    }
-
-    .btn-click-look {
-        background-color: white;
-        color: gray;
-        border: 1px solid lightgray;
-        height: 40px;
-        /*position: fixed;*/
-        bottom: 40px;
-        margin-right: auto;
-        margin-left: auto;
-        font-size: 15px;
-        /*color: rgba(255, 255, 255, 0.2)*/
-    }
-    
-    .imgResultDiv {
-    	width: 500px;
-    	height: 500px;
-    }
-    </style>
-
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
@@ -456,8 +524,12 @@
         
         <div class="row">
 
-            <div id="imgResultDiv" class="col-lg-12" style="margin-bottom: 40px; overflow:hidden;">
+			<div id="avatar-div-id" class="avatar-div" style="display:none">
+				<canvas></canvas>
+			</div>
+            <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
                 <img id="img-result" src=""></img>
+                <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
             </div>
 
             <div class="col-lg-12">
