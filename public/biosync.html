@@ -24,6 +24,14 @@
     
     <script>
 
+	function encode_utf8(s) {
+	  return unescape(encodeURIComponent(s));
+	}
+
+	function decode_utf8(s) {
+	  return decodeURIComponent(escape(s));
+	}
+
 	function sendMsg(_type, _message) {
 		try {
 			ws.send(
@@ -213,7 +221,7 @@
               	}
           	});  //*/
           	
-          	sendMsg("name", name);
+          	sendMsg("name", encode_utf8(name));
 
         };
 
