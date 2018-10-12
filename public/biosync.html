@@ -330,7 +330,7 @@
                 document.getElementById("msg-top").innerHTML = "Analysis of your microbiota population";
             	document.getElementById("btn-click-look").innerHTML = "Look for a match";
                 document.getElementById("msg-standby").innerHTML = "";
-                var rnd = (int)(Math.random()*42);
+                var rnd = Math.random()*42;
                 var str = "img/micro"+rnd+".jpg";
                 console.log(str);
             	document.getElementById("img-result").src = "img/micro"+str+".jpg";
