@@ -221,7 +221,7 @@
               	}
           	});  //*/
           	
-          	sendMsg("name", name);
+          	sendMsg("name", encode_uft8(name));
 
         };
 
@@ -383,7 +383,7 @@
 		connectToWS();
         
         var temp = location.search.substring(1).split("=");
-    	name = encode_utf8(temp[1]);
+    	name = temp[1];
     	document.getElementById("name").innerHTML = name;
     	
     	setStage(-1);
