@@ -151,8 +151,8 @@ wss.on('connection', function connection(ws) {
 				}
         	});
 		break;
-		case "touchdist":
-			console.log("Touch Distance : " + msg.stage);
+		case "match":
+			console.log("Ready to match width " + msg.stage);
 	    	break;
     }
 

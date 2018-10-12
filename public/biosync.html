@@ -51,7 +51,7 @@
 
 				// Run the callback
 				//console.log( 'Scrolling has stopped.' );
-				if (document.body.scrollTop > 10) {
+				if (document.body.scrollTop > 25) {
 					switch (stage) {
 						case 0:
 							setStage(1,'');
@@ -344,6 +344,7 @@
                 document.getElementById("msg-top").innerHTML = "Looking for a complementary biotope";
             	document.getElementById("img-result").src = "img/loading.gif";
                 document.getElementById("btn-click-look").style.display = "none";
+                sendMsg("match", document.getElementById("name").innerHTML);
                 break;
             case 6:
                 document.getElementById("section-standBy").style.display = "none";
@@ -379,7 +380,7 @@
 
     <style>
     .img-result {
-        width:60%;
+        width:50%;
         height:auto;
     }
 
