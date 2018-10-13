@@ -24,20 +24,28 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-standBy" style="" class="container content-section text-left" style="padding:0;">
+    <section id="section-standBy" style="padding:20px;">
     
+    <div>
+		<button onclick="setClientsWS(-1)">Selfie</button>
+		<button onclick="setClientsWS(0)">Scroll</button>
+		<button onclick="setClientsWS(1)">Again</button>
+		<button onclick="setClientsWS(2)">And again</button>
+		<button onclick="setClientsWS(3)">Saliva</button>
+		<button onclick="setClientsWS(4)">Microbiota</button>
+		<button onclick="setClientsWS(5)">Looking</button>
+		<button onclick="sendMatch()">Match</button>
+	</div>
+	
+	</section>
+	
+	<section id="section-user" style="padding:20px;">
     
-    <div id="text-to-send" contenteditable="true">Scroll with your tongue</div>
-	<br/>
-	<div>
-		<button onclick="setClientsWS(-1)">Selfie</button><br/>
-		<button onclick="setClientsWS(0)">Scroll</button><br/>
-		<button onclick="setClientsWS(1)">Again</button><br/>
-		<button onclick="setClientsWS(2)">And again</button><br/>
-		<button onclick="setClientsWS(3)">Saliva</button><br/>
-		<button onclick="setClientsWS(4)">Microbiota</button><br/>
-		<button onclick="setClientsWS(5)">Looking</button><br/>
-		<button onclick="sendMatch()">Match</button><br/>
+    <div>
+    Users ready :<br/>
+    <ul id="user-list">
+    </ul>
+		
 	</div>
 	
 	</section>
@@ -68,6 +76,14 @@
 		// Log messages from the server
 		ws.onmessage = function (e) {
 			console.log("- Received message: " + e.data);
+			
+			var reply = JSON.parse(e.data);
+            if (reply.type == "match" || reply.type == "initState") {
+            	var ul = document.getElementById("user-list");
+  				var li = document.createElement("li");
+ 				li.appendChild(document.createTextNode(reply.stage));
+ 				ul.appendChild(li);
+            }
 		};
 
     });
