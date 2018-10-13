@@ -213,9 +213,10 @@ wss.on('connection', function connection(ws) {
   			break;
   			
   		case "matchmake":
-	    	console.log('- MATCHMAKE '+users.length);
 	    	
 	    	usersMatch = users.splice();
+	    	console.log('- MATCHMAKE '+usersMatch.length);
+	    	
 	    	while(usersMatch.length > 1)
 	    	{
 	    		var i = Math.floor(Math.random()*usersMatch.length);
