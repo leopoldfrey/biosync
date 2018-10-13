@@ -214,13 +214,13 @@ wss.on('connection', function connection(ws) {
   		case "matchmake":
 	    	console.log('- MATCHMAKE');
 	    	
-	    	while(user.length > 1)
+	    	while(users.length > 1)
 	    	{
-	    		var i = Math.floor(Math.random()*user.length);
-				var u1 = user[i];
+	    		var i = Math.floor(Math.random()*users.length);
+				var u1 = users[i];
 				user.splice(i,1);
-				var j = Math.floor(Math.random()*user.length);
-				var u2 = user[j];
+				var j = Math.floor(Math.random()*users.length);
+				var u2 = users[j];
 				user.splice(j,1);
 				console.log('Matchmake '+u1+'u2');
 				// Broadcast
@@ -237,9 +237,9 @@ wss.on('connection', function connection(ws) {
 					}
 				});
 	    	}
-	    	if(user.length > 1)
+	    	if(users.length > 1)
 	    	{
-	    		console.log('!!! Alone '+user[0]);
+	    		console.log('!!! Alone '+users[0]);
 	    	}
   			break;
   		default:
