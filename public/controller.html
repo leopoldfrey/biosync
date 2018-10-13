@@ -87,8 +87,12 @@
             } else if (reply.type == "users") {
             	var list = document.getElementById("user-list");
             	list.innerHTML = "";
-            	for(var i = 0 ; i < reply.userArray.length ; i++);
-            		list.appendChild(document.createTextNode(reply.userArray[i]));
+            	for(var i = 0 ; i < reply.userArray.length ; i++)
+				{
+					var li = document.createElement("li");
+    				li.appendChild(document.createTextNode(reply.userArray[i]));
+    				list.appendChild(li);
+    			}
             }
 		};
 
