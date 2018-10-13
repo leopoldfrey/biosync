@@ -85,7 +85,8 @@
  				li.appendChild(document.createTextNode(reply.stage));
  				ul.appendChild(li);
             } else if (reply.type == "users") {
-            	document.getElementById("user-list").appenChild(document.createTextNode(reply.userArray));
+            	var list = document.getElementById("user-list");
+            	list.appenChild(document.createTextNode(reply.userArray));
             }
 		};
 
