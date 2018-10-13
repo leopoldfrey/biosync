@@ -225,8 +225,7 @@ wss.on('connection', function connection(ws) {
 				console.log('Matchmake '+u1+' '+u2);
 				// Broadcast
 				wss.clients.forEach(function each(client) {
-					if (client.readyState === WebSocket.OPEN) {
-						client.send(
+					client.send(
 							JSON.stringify(
 							{
 								charset : 'utf8mb4', 
@@ -234,7 +233,6 @@ wss.on('connection', function connection(ws) {
 								u1: msg.u1,
 								u2: msg.u2
 							}));
-					}
 				});
 	    	}
 	    	if(users.length > 1)
