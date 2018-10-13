@@ -319,7 +319,7 @@
     		var newimg = document.createElement("img");
     		newimg.src = "uploads/"+u2+".jpeg";
     		newimg.classList.add("avatar-canvas");
-	        resultDiv.replaceChild(newimg, resultDiv.firstChild);
+	        resultDiv.replaceChild(newimg, resultDiv.children[0]);
 			    
     		document.getElementById("match_name").innerHTML = u2.replace(/_/g, " ");
        } else if (u2 == name) {
@@ -330,7 +330,7 @@
     		var newimg = document.createElement("img");
     		newimg.src = "uploads/"+u1+".jpeg";
     		newimg.classList.add("avatar-canvas");
-	        resultDiv.replaceChild(newimg, resultDiv.firstChild);
+	        resultDiv.replaceChild(newimg, resultDiv.children[0]);
 			
     		document.getElementById("match_name").innerHTML = u1.replace(/_/g, " ");
         }
