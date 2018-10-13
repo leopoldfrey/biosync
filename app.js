@@ -129,6 +129,8 @@ const wss = new WebSocketServer({
 var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
+var users = [];
+
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('| WebSocket received : %s', message);
@@ -158,6 +160,7 @@ wss.on('connection', function connection(ws) {
 			break;
 		case "match":
 			console.log("- MATCH " + msg.stage);
+			users.push(msg.stage);
 			// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -206,6 +209,38 @@ wss.on('connection', function connection(ws) {
 						}));
 				}
         	});
+  			break;
+  			
+  		case "matchmake":
+	    	console.log('- MATCHMAKE');
+	    	
+	    	while(user.length > 1)
+	    	{
+	    		var i = Math.floor(Math.random()*user.length);
+				var u1 = user[i];
+				user.splice(i,1);
+				var j = Math.floor(Math.random()*user.length);
+				var u2 = user[j];
+				user.splice(j,1);
+				console.log('Matchmake '+u1+'u2');
+				// Broadcast
+				wss.clients.forEach(function each(client) {
+					if (client.readyState === WebSocket.OPEN) {
+						client.send(
+							JSON.stringify(
+							{
+								charset : 'utf8mb4', 
+								type: "domatch",
+								u1: msg.u1,
+								u2: msg.u2
+							}));
+					}
+				});
+	    	}
+	    	if(user.length > 1)
+	    	{
+	    		console.log('!!! Alone '+user[0]);
+	    	}
   			break;
   		default:
   			console.log('* ignored : '+msg.type);

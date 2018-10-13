@@ -37,7 +37,7 @@
 		<button onclick="setClientsWS(3)">Saliva</button><br/>
 		<button onclick="setClientsWS(4)">Microbiota</button><br/>
 		<button onclick="setClientsWS(5)">Looking</button><br/>
-		<button onclick="setClientsWS(6)">Match</button><br/>
+		<button onclick="sendMatch()">Match</button><br/>
 	</div>
 	
 	</section>
@@ -92,6 +92,19 @@
 			standbyMsg: messageToSend
 		}));
 
+	}
+	
+	function sendMatch() {
+		if (!ws) {
+			console.log("* No ws connection!");
+			return;
+		}
+
+		ws.send(JSON.stringify({
+			type:"matchmake"
+		}));
+		
+		setClientsWS(6);
 	}
 	
 	</script>
