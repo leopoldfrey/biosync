@@ -217,12 +217,12 @@ wss.on('connection', function connection(ws) {
 	    	while(users.length > 1)
 	    	{
 	    		var i = Math.floor(Math.random()*users.length);
-				var u1 = users[i];
+				var u1n = users[i];
 				users.splice(i,1);
 				var j = Math.floor(Math.random()*users.length);
-				var u2 = users[j];
+				var u2n = users[j];
 				users.splice(j,1);
-				console.log('Matchmake '+u1+' '+u2);
+				console.log('Matchmake '+u1n+' '+u2n);
 				// Broadcast
 				wss.clients.forEach(function each(client) {
 					client.send(
@@ -230,8 +230,8 @@ wss.on('connection', function connection(ws) {
 							{
 								charset : 'utf8mb4', 
 								type: "domatch",
-								u1: msg.u1,
-								u2: msg.u2
+								u1: u1n,
+								u2: u2n
 							}));
 				});
 	    	}
