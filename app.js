@@ -130,6 +130,7 @@ var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
 var users = [];
+var usersMatch = [];
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -214,15 +215,15 @@ wss.on('connection', function connection(ws) {
   		case "matchmake":
 	    	console.log('- MATCHMAKE '+users.length);
 	    	
-	    	while(users.length > 1)
+	    	while(usersMatch.length > 1)
 	    	{
-	    		var i = Math.floor(Math.random()*users.length);
-				var u1n = users[i];
-				users.splice(i,1);
-				var j = Math.floor(Math.random()*users.length);
-				var u2n = users[j];
-				users.splice(j,1);
-				console.log('Matchmake '+u1n+' '+u2n);
+	    		var i = Math.floor(Math.random()*usersMatch.length);
+				var u1n = usersMatch[i];
+				usersMatch.splice(i,1);
+				var j = Math.floor(Math.random()*usersMatch.length);
+				var u2n = usersMatch[j];
+				usersMatch.splice(j,1);
+				console.log('- Matchmake '+u1n+' '+u2n);
 				// Broadcast
 				wss.clients.forEach(function each(client) {
 					client.send(
@@ -235,11 +236,34 @@ wss.on('connection', function connection(ws) {
 							}));
 				});
 	    	}
-	    	if(users.length > 1)
+	    	if(usersMatch.length == 1)
 	    	{
-	    		console.log('!!! Alone '+users[0]);
+	    		console.log('- Alone '+usersMatch[0]);
+	    		wss.clients.forEach(function each(client) {
+					client.send(
+							JSON.stringify(
+							{
+								charset : 'utf8mb4', 
+								type: "domatch",
+								u1: u1n,
+								u2: u2n
+							}));
+				});
 	    	}
   			break;
+  			
+  		case "getusers":
+  			console.log('- GETUSERS '+users.length);
+  			wss.clients.forEach(function each(client) {
+					client.send(
+							JSON.stringify(
+							{
+								charset : 'utf8mb4', 
+								type: "users",
+								userArray: users
+							}));
+				});
+	    	break;
   		default:
   			console.log('* ignored : '+msg.type);
   			break;

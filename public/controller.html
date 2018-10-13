@@ -35,6 +35,7 @@
 		<button onclick="setClientsWS(4)">Microbiota</button>
 		<button onclick="setClientsWS(5)">Looking</button>
 		<button onclick="sendMatch()">Match</button>
+		<button onclick="sendMatch()">Match</button>
 	</div>
 	
 	</section>
@@ -83,6 +84,8 @@
   				var li = document.createElement("li");
  				li.appendChild(document.createTextNode(reply.stage));
  				ul.appendChild(li);
+            } else if (reply.type == "users") {
+            	document.getElementById("user-list").appenChild(document.createTextNode(reply.userArray));
             }
 		};
 
@@ -121,6 +124,17 @@
 		}));
 		
 		setClientsWS(6);
+	}
+	
+	function getUsers() {
+		if (!ws) {
+			console.log("* No ws connection!");
+			return;
+		}
+
+		ws.send(JSON.stringify({
+			type:"getusers"
+		}));
 	}
 	
 	</script>
