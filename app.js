@@ -218,10 +218,10 @@ wss.on('connection', function connection(ws) {
 	    	{
 	    		var i = Math.floor(Math.random()*users.length);
 				var u1 = users[i];
-				user.splice(i,1);
+				users.splice(i,1);
 				var j = Math.floor(Math.random()*users.length);
 				var u2 = users[j];
-				user.splice(j,1);
+				users.splice(j,1);
 				console.log('Matchmake '+u1+'u2');
 				// Broadcast
 				wss.clients.forEach(function each(client) {
