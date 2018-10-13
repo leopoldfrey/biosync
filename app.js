@@ -129,8 +129,11 @@ const wss = new WebSocketServer({
 var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
-var users = [];
+var users = [];//"D","Bb","C","A","Leo"];
 var usersMatch = [];
+
+//usersMatch = users.slice();
+//console.log(usersMatch);
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -214,7 +217,7 @@ wss.on('connection', function connection(ws) {
   			
   		case "matchmake":
 	    	
-	    	usersMatch = users.splice();
+	    	usersMatch = users.slice();
 	    	console.log('- MATCHMAKE '+usersMatch.length);
 	    	
 	    	while(usersMatch.length > 1)
