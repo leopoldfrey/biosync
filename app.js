@@ -30,8 +30,8 @@ app.get('/controller.html',function(req,res){
       res.sendFile(__dirname + "/public/controller.html");
 });
 
-app.get('/test.html',function(req,res){
-      res.sendFile(__dirname + "/public/test.html");
+app.get('/address.html',function(req,res){
+      res.sendFile(__dirname + "/public/address.html");
 });
 
 
