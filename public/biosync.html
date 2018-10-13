@@ -37,9 +37,9 @@
     }
     
     #img-loading {
-    	position: relative;
+    	/*position: relative;
 		top: 50%;
-		transform: translate(0%, -50%);
+		transform: translate(0%, -50%);//*/
     }
     
     #img-result {
@@ -71,23 +71,27 @@
     }
     
     .avatar-div {
-    	border-radius: 150px;
+    	/*border-radius: 150px;*/
 		height:300px;
 		width:300px;
-		overflow:hidden;
+		/*overflow:hidden;*/
 		text-align: center;
 		margin:0 auto;
   		margin-bottom: 40px;
     }
     
     .avatar-canvas {
-    	height:300px;
+    	/*height:300px;
 		min-width:100%;
 		max-width:none;
 		position: relative;
 		left: 50%;
 	 	top: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);//*/
+		height:300px;
+		/*width:50%;*/
+		/*max-width:none;*/
+		margin: 0 -50%;
     }
 
     </style>
@@ -117,7 +121,7 @@
 	}
 
 	stage = -1;
-
+				
     //const port = location.PORT || 3000;
 
 	var ws;
@@ -173,10 +177,10 @@
             
             	var dataURL = canvas.toDataURL("image/jpeg");
 
-				var resultDiv = document.getElementById("avatar-div-id");
+				var resultDiv = document.querySelector("#avatar-div-id");
 				canvas.classList.add("avatar-canvas");
-	            resultDiv.replaceChild(canvas, resultDiv.firstChild);
-
+	            resultDiv.replaceChild(canvas, resultDiv.children[0]);
+	            
                 // Transform to blob and upload
                 var blob = dataURLToBlob(dataURL);
                 uploadImageAsBlob(blob);
@@ -342,7 +346,8 @@
                 document.getElementById("msg-top").innerHTML = "Identification";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
-            	document.getElementById("img-loading").style.display = "none";
+            	document.getElementById("img-result").style.display = "none";
+                document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
             	document.getElementById("btn-click-look").innerHTML = "Take a selfie";
@@ -354,6 +359,7 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Scroll With Your Tongue";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "none";
@@ -365,6 +371,7 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "Again";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "none";
@@ -376,6 +383,7 @@
                 document.getElementById("section-top").style.display = "none";
                 document.getElementById("msg-standby").innerHTML = "And again";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "none";
@@ -387,12 +395,13 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Good<br/>Your saliva is being analyzed";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "";
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
                 setTimeout(function() {
-					setStage(4,'');
+					//setStage(4,'');
 				}, 3000);
                 break;
             case 4:
@@ -405,7 +414,8 @@
                 var rnd = Math.round(Math.random()*42);
                 var str = "img/micro_"+rnd+".jpg";
                 document.getElementById("img-result").src = str;
-				document.getElementById("img-loading").style.display = "none";
+				document.getElementById("img-result").style.display = "";
+                document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "";
@@ -416,6 +426,7 @@
                 document.getElementById("section-top").style.display = "";
                 document.getElementById("msg-top").innerHTML = "Looking for a complementary microbiota";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "";
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
@@ -429,6 +440,7 @@
                 document.getElementById("msg-top").innerHTML = "We have found your healing solution";
             	document.getElementById("msg-standby").innerHTML = "";
             	document.getElementById("img-result").src = "";
+                document.getElementById("img-result").style.display = "none";
                 document.getElementById("img-loading").style.display = "none";
 				document.getElementById("imgResultDiv").style.display = "none";
             	document.getElementById("avatar-div-id").style.display = "";
@@ -507,7 +519,7 @@
     	name = decodeURIComponent(temp[1]);
     	document.getElementById("name").innerHTML = name;
     	
-    	setStage(-1);
+    	setStage(6);
     });
 
     </script>
@@ -529,11 +541,10 @@
         <div class="row">
 
 			<div id="avatar-div-id" class="avatar-div" style="display:none">
-				<img src="https://parismatch.be/app/uploads/2018/04/Macaca_nigra_self-portrait_large-e1524567086123-1100x715.jpg" alt="" />
+				<canvas></canvas>
 			</div>
             <div id="imgResultDiv" style="display:none"><!--class="col-lg-12" style=""-->
-                <img id="img-result" src=""></img>
-                
+                <img id="img-result" src="" style="display:none"></img>
                 <img id="img-loading" src="img/loading.gif" width="40" height="40" style="display:none"></img>
             </div>
 
@@ -544,7 +555,7 @@
             </div>            
 			
 			<div id="section-bottom" style="display: none;">
-				<p style="font-size: 20px;">
+				<p style="font-size: 20px; padding: 0px 20px;">
 					Approach <span id="match_name" style="text-transform: uppercase; font-weight: bold;">John Doe</span><br/>
 					and keep a maximum distance of 20cm<br/>
 					during a minimum duration of 3 minutes.<br/>
