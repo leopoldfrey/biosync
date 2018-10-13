@@ -212,7 +212,7 @@ wss.on('connection', function connection(ws) {
   			break;
   			
   		case "matchmake":
-	    	console.log('- MATCHMAKE');
+	    	console.log('- MATCHMAKE '+users.length);
 	    	
 	    	while(users.length > 1)
 	    	{
@@ -222,7 +222,7 @@ wss.on('connection', function connection(ws) {
 				var j = Math.floor(Math.random()*users.length);
 				var u2 = users[j];
 				users.splice(j,1);
-				console.log('Matchmake '+u1+'u2');
+				console.log('Matchmake '+u1+' '+u2);
 				// Broadcast
 				wss.clients.forEach(function each(client) {
 					if (client.readyState === WebSocket.OPEN) {
