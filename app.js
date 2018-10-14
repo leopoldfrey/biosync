@@ -229,7 +229,7 @@ app.post('/alone', function (req, res) {
 							u2: "rocio"
 						}));
 			});
-			usersMatch = [];
+			usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
 		}
   }
   
@@ -260,7 +260,7 @@ app.post('/getusers', function (req, res) {
 app.post('/clearusers', function (req, res) {
   console.log('| Server received /clearusers');
   
-  usersMatch = [];
+  usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
   
   res.end("ok");
 })
@@ -278,7 +278,8 @@ var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
 //var users = [];//"D","Bb","C","A","Leo"];
-var usersMatch = [];
+var usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
+  
 
 //usersMatch = users.slice();
 //console.log(usersMatch);
@@ -402,7 +403,7 @@ wss.on('connection', function connection(ws) {
 								u2: "rocio"
 							}));
 				});
-				usersMatch = [];
+				usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
 	    	}
   			break;
   			
@@ -420,8 +421,8 @@ wss.on('connection', function connection(ws) {
 	    	break;
   		case "clearusers":
   			console.log('- CLEARUSERS');
-  			usersMatch = [];
-	    	break;
+  			usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
+  	    	break;
   		default:
   			console.log('* ignored : '+msg.type);
   			break;
