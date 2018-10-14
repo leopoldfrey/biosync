@@ -54,6 +54,7 @@
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(5)">Looking</button><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="sendGetUsers()">Get Users</button><br/><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="sendMatchmake()">Match</button> 
+		<button class="btn btn-lg btn-click-look" onclick="sendAlone()">Alone</button> 
 	</div>
 	
 	</section>
@@ -126,7 +127,7 @@
     });
 
 
-	function setClientsWS(stage) {
+	/*function setClientsWS(stage) {
 
 		if (!ws) {
 			console.log("* No ws connection!");
@@ -144,9 +145,24 @@
 			stage: stage,
 			standbyMsg: messageToSend
 		}));
+	}//*/
+	
+	function setStage(_stage) {
+
+		messageToSend = "";
+
+		if (_stage == 0) {
+			messageToSend = document.getElementById("text-to-send").innerHTML;
+		}
+
+		$.post("/stage",{type:"broadcast", stage: _stage, standbyMsg: messageToSend}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending stage");
+              }
+          });
 
 	}
-	
+		
 	function sendMatchmake() {
         $.post("/matchmake",{type:"matchmake"}, function(data){
             if(data==="ok") {
@@ -154,10 +170,27 @@
               }
           });
           
-        setClientsWS(6);
+        //setClientsWS(6);
 		
 		var list = document.getElementById("user-list");
     	list.innerHTML = "";
+    	
+    	sendGetUsers();
+    }
+    	
+    function sendAlone() {
+        $.post("/alone",{type:"alone"}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending alone");
+              }
+          });
+          
+        //setClientsWS(6);
+		
+		var list = document.getElementById("user-list");
+    	list.innerHTML = "";
+    	
+    	sendGetUsers();
     }
     	
 	function sendGetUsers() {
@@ -176,7 +209,7 @@
           });
     }
 	
-	function sendMatch() {
+	/*function sendMatch() {
 		if (!ws) {
 			console.log("* No ws connection!");
 			return;
@@ -186,7 +219,7 @@
 			type:"matchmake"
 		}));
 		
-		setClientsWS(6);
+		//setClientsWS(6);
 		
 		var list = document.getElementById("user-list");
     	list.innerHTML = "";
@@ -216,7 +249,7 @@
 		
 		var list = document.getElementById("user-list");
     	list.innerHTML = "";
-	}
+	}//*/
 	
 	</script>
 	

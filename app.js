@@ -158,58 +158,87 @@ app.post('/match', function (req, res) {
   res.end("ok");
 })
 
-/*----------- Match receive -----------*/
+/*----------- matchmake receive -----------*/
 app.post('/matchmake', function (req, res) {
   console.log('| Server received /matchmake');
   
   if(wss)
   {
-  			console.log('- MATCHMAKE '+usersMatch.length);
-	    	
-	    	while(usersMatch.length > 1)
-	    	{
-	    		var i = Math.floor(Math.random()*usersMatch.length);
-				var u1n = usersMatch[i];
-				usersMatch.splice(i,1);
-				var j = Math.floor(Math.random()*usersMatch.length);
-				var u2n = usersMatch[j];
-				usersMatch.splice(j,1);
-				console.log('- Matchmake '+u1n+' '+u2n);
-				// Broadcast
-				wss.clients.forEach(function each(client) {
-					client.send(
-							JSON.stringify(
-							{
-								charset : 'utf8mb4', 
-								type: "domatch",
-								u1: u1n,
-								u2: u2n
-							}));
-				});
-	    	}
-	    	if(usersMatch.length == 1)
-	    	{
-	    		console.log('- Alone '+usersMatch[0]);
-	    		wss.clients.forEach(function each(client) {
-					client.send(
-							JSON.stringify(
-							{
-								charset : 'utf8mb4', 
-								type: "domatch",
-								u1: usersMatch[0],
-								u2: "rocio"
-							}));
-				});
-				usersMatch = [];
-	    	}
+		console.log('- MATCHMAKE '+usersMatch.length);
+		
+		while(usersMatch.length > 1)
+		{
+			var i = Math.floor(Math.random()*usersMatch.length);
+			var u1n = usersMatch[i];
+			usersMatch.splice(i,1);
+			var j = Math.floor(Math.random()*usersMatch.length);
+			var u2n = usersMatch[j];
+			usersMatch.splice(j,1);
+			console.log('- Matchmake '+u1n+' '+u2n);
+			// Broadcast
+			wss.clients.forEach(function each(client) {
+				client.send(
+						JSON.stringify(
+						{
+							charset : 'utf8mb4', 
+							type: "domatch",
+							u1: u1n,
+							u2: u2n
+						}));
+			});
+		}
+		/*if(usersMatch.length == 1)
+		{
+			console.log('- Alone '+usersMatch[0]);
+			wss.clients.forEach(function each(client) {
+				client.send(
+						JSON.stringify(
+						{
+							charset : 'utf8mb4', 
+							type: "domatch",
+							u1: usersMatch[0],
+							u2: "rocio"
+						}));
+			});
+			usersMatch = [];
+		}//*/
   }
   
   res.end("ok");
 })
 
-/*----------- Match receive -----------*/
+// ALONE
+
+app.post('/alone', function (req, res) {
+  console.log('| Server received /alone');
+  
+  if(wss)
+  {
+		console.log('- ALONE '+usersMatch.length);
+		
+		if(usersMatch.length == 1)
+		{
+			console.log('- Alone '+usersMatch[0]);
+			wss.clients.forEach(function each(client) {
+				client.send(
+						JSON.stringify(
+						{
+							charset : 'utf8mb4', 
+							type: "domatch",
+							u1: usersMatch[0],
+							u2: "rocio"
+						}));
+			});
+			usersMatch = [];
+		}
+  }
+  
+  res.end("ok");
+})
+
+/*----------- getusers receive -----------*/
 app.post('/getusers', function (req, res) {
-	console.log('| Server received /domatch');
+	console.log('| Server received /getusers '+usersMatch);
   
   	if(wss)
 	{
@@ -227,9 +256,9 @@ app.post('/getusers', function (req, res) {
   	res.end("ok");
 })
 
-/*----------- Match receive -----------*/
+/*----------- clearusers receive -----------*/
 app.post('/clearusers', function (req, res) {
-  console.log('| Server received /domatch');
+  console.log('| Server received /clearusers');
   
   usersMatch = [];
   
