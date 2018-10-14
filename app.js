@@ -131,7 +131,7 @@ wss.closeTimeout = 180 * 1000;
 var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
-var users = [];//"D","Bb","C","A","Leo"];
+//var users = [];//"D","Bb","C","A","Leo"];
 var usersMatch = [];
 
 //usersMatch = users.slice();
@@ -166,7 +166,7 @@ wss.on('connection', function connection(ws) {
 			break;
 		case "match":
 			console.log("- MATCH " + msg.stage);
-			users.push(msg.stage);
+			usersMatch.push(msg.stage);
 			// Broadcast
     	    wss.clients.forEach(function each(client) {
 				if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -219,7 +219,7 @@ wss.on('connection', function connection(ws) {
   			
   		case "matchmake":
 	    	
-	    	usersMatch = users.slice();
+	    	//usersMatch = users.slice();
 	    	console.log('- MATCHMAKE '+usersMatch.length);
 	    	
 	    	while(usersMatch.length > 1)
