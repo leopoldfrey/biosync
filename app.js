@@ -226,7 +226,7 @@ app.post('/alone', function (req, res) {
 							charset : 'utf8mb4', 
 							type: "domatch",
 							u1: usersMatch[0],
-							u2: "rocio"
+							u2: "columba_livia"
 						}));
 			});
 			usersMatch = ["aesculus_hippocastanum", "perovskia_atriplicifolia", "platanus_occidentalis", "stachys_byzantina", "aster_amellus", "phoenix_dactylifera", "rosa_canina", "taxus_baccata", "glechoma_hederacea", "platanus_hispanica", "rosa_chinensis", "tilia_americana"];
