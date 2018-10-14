@@ -256,6 +256,7 @@ wss.on('connection', function connection(ws) {
 								u2: "rocio"
 							}));
 				});
+				usersMatch = [];
 	    	}
   			break;
   			
