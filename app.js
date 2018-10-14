@@ -112,9 +112,126 @@ app.post('/name', function (req, res) {
   console.log('| Server received /name');
   if (req.body.name) {
   	console.log('- New user : '+req.body.name);
+  	if(wss)
+  	{
+  		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					type: "name",
+					stage: req.body.name,
+					standbyMsg: ""
+				}));
+        	});
+  	}
   } else {
     console.log("* Error: invalid name received");  
   }
+  
+  res.end("ok");
+})
+
+/*----------- Match receive -----------*/
+app.post('/match', function (req, res) {
+  console.log('| Server received /match');
+  if (req.body.name) {
+  	console.log('- User ready to match : '+req.body.name);
+  	usersMatch.push(req.body.name);
+  	if(wss)
+  	{
+  		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					type: "match",
+					stage: req.body.name,
+					standbyMsg: ""
+				}));
+        	});
+  	}
+  } else {
+    console.log("* Error: invalid match received");  
+  }
+  
+  res.end("ok");
+})
+
+/*----------- Match receive -----------*/
+app.post('/matchmake', function (req, res) {
+  console.log('| Server received /matchmake');
+  
+  if(wss)
+  {
+  			console.log('- MATCHMAKE '+usersMatch.length);
+	    	
+	    	while(usersMatch.length > 1)
+	    	{
+	    		var i = Math.floor(Math.random()*usersMatch.length);
+				var u1n = usersMatch[i];
+				usersMatch.splice(i,1);
+				var j = Math.floor(Math.random()*usersMatch.length);
+				var u2n = usersMatch[j];
+				usersMatch.splice(j,1);
+				console.log('- Matchmake '+u1n+' '+u2n);
+				// Broadcast
+				wss.clients.forEach(function each(client) {
+					client.send(
+							JSON.stringify(
+							{
+								charset : 'utf8mb4', 
+								type: "domatch",
+								u1: u1n,
+								u2: u2n
+							}));
+				});
+	    	}
+	    	if(usersMatch.length == 1)
+	    	{
+	    		console.log('- Alone '+usersMatch[0]);
+	    		wss.clients.forEach(function each(client) {
+					client.send(
+							JSON.stringify(
+							{
+								charset : 'utf8mb4', 
+								type: "domatch",
+								u1: usersMatch[0],
+								u2: "rocio"
+							}));
+				});
+				usersMatch = [];
+	    	}
+  }
+  
+  res.end("ok");
+})
+
+/*----------- Match receive -----------*/
+app.post('/getusers', function (req, res) {
+	console.log('| Server received /domatch');
+  
+  	if(wss)
+	{
+  		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+					{
+						charset : 'utf8mb4', 
+						type: "users",
+						userArray: usersMatch
+					}));
+		});
+  	}
+  
+  	res.end("ok");
+})
+
+/*----------- Match receive -----------*/
+app.post('/clearusers', function (req, res) {
+  console.log('| Server received /domatch');
+  
+  usersMatch = [];
   
   res.end("ok");
 })

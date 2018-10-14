@@ -98,6 +98,29 @@
     
     <script>
 
+	function sendMatch() {
+
+        $.post("/match",{name: document.getElementById("name").innerHTML}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending name");
+              }
+          });
+
+		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
+    }
+
+	function sendName() {
+
+        $.post("/name",{name: document.getElementById("name").innerHTML}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending name");
+              }
+          });
+
+		//window.location.href = '/biosync.html?name=' + document.getElementById("name").value.replace(/ /g, "_");
+    }
+
+
 	function sendMsg(_type, _message) {
 		try {
 		
@@ -288,8 +311,9 @@
         ws.onopen = function (event) {
             console.log("- Connected to ws server");
           	
-          	sendMsg("name", name);
-          	console.log("- Sending /name "+name);
+          	//sendMsg("name", name);
+          	//console.log("- Sending /name "+name);
+          	sendName();
 
         };
 
@@ -437,7 +461,8 @@
 				document.getElementById("imgResultDiv").style.display = "";
             	document.getElementById("avatar-div-id").style.display = "none";
             	document.getElementById("btn-click-look").style.display = "none";
-                sendMsg("match", document.getElementById("name").innerHTML);
+                //sendMsg("match", document.getElementById("name").innerHTML);
+                sendMatch();
                 break;
             case 6:
                 document.getElementById("section-bottom").style.display = "";

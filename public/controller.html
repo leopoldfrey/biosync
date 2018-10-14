@@ -52,8 +52,8 @@
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(3)">Saliva</button><br/>  
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(4)">Microbiota</button><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(5)">Looking</button><br/> 
-		<button class="btn btn-lg btn-click-look" onclick="getUsers()">Get Users</button><br/><br/> 
-		<button class="btn btn-lg btn-click-look" onclick="sendMatch()">Match</button> 
+		<button class="btn btn-lg btn-click-look" onclick="sendGetUsers()">Get Users</button><br/><br/> 
+		<button class="btn btn-lg btn-click-look" onclick="sendMatchmake()">Match</button> 
 	</div>
 	
 	</section>
@@ -73,7 +73,7 @@
     
     <div style="width:50%; margin: auto">
     
-		<button class="btn btn-lg btn-click-look" onclick="clearUsers()">Clear Users</button><br/><br/> 
+		<button class="btn btn-lg btn-click-look" onclick="sendClearUsers()">Clear Users</button><br/><br/> 
 	</div>
 	
 	</section>
@@ -146,6 +146,35 @@
 		}));
 
 	}
+	
+	function sendMatchmake() {
+        $.post("/matchmake",{type:"matchmake"}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending matchmake");
+              }
+          });
+          
+        setClientsWS(6);
+		
+		var list = document.getElementById("user-list");
+    	list.innerHTML = "";
+    }
+    	
+	function sendGetUsers() {
+        $.post("/getusers",{type:"getusers"}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending getusers");
+              }
+          });
+    }
+	
+	function sendClearUsers() {
+        $.post("/clearusers",{type:"clearusers"}, function(data){
+            if(data==="ok") {
+                console.log("- Success sending clearusers");
+              }
+          });
+    }
 	
 	function sendMatch() {
 		if (!ws) {
