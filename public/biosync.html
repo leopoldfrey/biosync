@@ -352,6 +352,7 @@
 	        resultDiv.replaceChild(newimg, resultDiv.children[0]);
 			    
     		document.getElementById("match_name").innerHTML = u2.replace(/_/g, " ");
+	        setStage(6);
        } else if (u2 == name) {
     		//console.log("I DO MATCH WITH "+ u1);
     		setStage(6,'');
@@ -363,9 +364,9 @@
 	        resultDiv.replaceChild(newimg, resultDiv.children[0]);
 			
     		document.getElementById("match_name").innerHTML = u1.replace(/_/g, " ");
+	        setStage(6);
         }
         
-        setStage(6);
     }
 
     function setStage(_stage, standbyMsg) {
