@@ -120,7 +120,8 @@
 			
 			});
 		} catch (err) {
-			console.log("Error sending message : "+err);
+			Alert(err.message);
+			console.log("Error sending message : "+err.message);
 		}
 	}
 
