@@ -260,14 +260,14 @@ wss.on('connection', function connection(ws) {
   			break;
   			
   		case "getusers":
-  			console.log('- GETUSERS '+users.length);
+  			console.log('- GETUSERS '+usersMatch.length);
   			wss.clients.forEach(function each(client) {
 					client.send(
 							JSON.stringify(
 							{
 								charset : 'utf8mb4', 
 								type: "users",
-								userArray: users
+								userArray: usersMatch
 							}));
 				});
 	    	break;
