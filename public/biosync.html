@@ -113,15 +113,15 @@
 				})
 			, function (err) {
 				if (err) {
-					console.log("- Error sending message");
+					console.log("- Error sending message "+err.stack);
 				} else {
 					console.log("- Success sending message "+ _type);
 				}
 			
 			});
 		} catch (err) {
-			alert(err.message);
-			console.log("Error sending message : "+err.message);
+			alert(err.stack);
+			console.log("Error sending message : "+err.stack);
 		}
 	}
 
@@ -281,7 +281,7 @@
 
         // Log errors
         ws.onerror = function (error) {
-            console.error("WebSocket Error " + error);
+            console.error("WebSocket Error " + error.stack);
         };
 
         ws.onopen = function (event) {
