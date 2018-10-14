@@ -126,6 +126,8 @@ const wss = new WebSocketServer({
     autoAcceptConnections: true
 });
 
+wss.closeTimeout = 180 * 1000;
+
 var currentStage = -1;
 var currentStandbyMessage = "Take a Selfie";
 
