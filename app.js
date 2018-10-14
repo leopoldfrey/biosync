@@ -265,6 +265,32 @@ app.post('/clearusers', function (req, res) {
   res.end("ok");
 })
 
+/*----------- stage receive -----------*/
+app.post('/stage', function (req, res) {
+  	console.log('| Server received /stage '+req.body.stage);
+  
+  	if(wss)
+  	{
+		currentStage = req.body.stage;
+		currentStandbyMessage = req.body.standbyMsg;
+
+		console.log("- BROADCAST " + currentStage);
+		// Broadcast
+		wss.clients.forEach(function each(client) {
+			client.send(
+				JSON.stringify(
+				{
+					charset : 'utf8mb4', 
+					type: "changeState",
+					stage: currentStage,
+					standbyMsg: currentStandbyMessage
+				}));
+		});
+  	}
+
+  res.end("ok");
+})
+
 /*----------- WS Server -----------*/
 
 const wss = new WebSocketServer({
