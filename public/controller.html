@@ -22,6 +22,7 @@
         color: gray;
         border: 1px solid lightgray;
         height: 40px;
+        width: 140px;
         /*position: fixed;*/
         bottom: 40px;
         margin-right: auto;
@@ -40,16 +41,16 @@
     </nav>
 
     <!-- Section -->
-    <section id="section-standBy" class="container content-section" style="padding:20px;">
+    <section id="section-standBy" class="container content-section text-center" style="padding:20px;">
     
     <div style="width:50%; margin: auto">
     
-		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(-1)">Selfie</button>  
-		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(0)">Scroll</button>  
+		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(-1)">Selfie</button><br/>
+		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(0)">Scroll</button><br/>
 		<!--button class="btn btn-lg btn-click-look" onclick="setClientsWS(1)">Again</button>  
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(2)">And again</button-->  
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(3)">Saliva</button><br/>  
-		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(4)">Microbiota</button>  
+		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(4)">Microbiota</button><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(5)">Looking</button><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="getUsers()">Users</button><br/><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="sendMatch()">Match</button> 
@@ -57,7 +58,7 @@
 	
 	</section>
 	
-	<section id="section-user" class="container content-section" style="padding:20px;">
+	<section id="section-user" class="container content-section text-center" style="padding:20px;">
     
     <div style="width:50%; margin: auto">
     Users ready<br/>
@@ -148,6 +149,10 @@
 		}));
 		
 		setClientsWS(6);
+		
+		var list = document.getElementById("user-list");
+    	list.innerHTML = "";
+            	
 	}
 	
 	function getUsers() {
