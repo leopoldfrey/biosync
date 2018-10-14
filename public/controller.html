@@ -52,7 +52,7 @@
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(3)">Saliva</button><br/>  
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(4)">Microbiota</button><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="setClientsWS(5)">Looking</button><br/> 
-		<button class="btn btn-lg btn-click-look" onclick="getUsers()">Users</button><br/><br/> 
+		<button class="btn btn-lg btn-click-look" onclick="getUsers()">Get Users</button><br/><br/> 
 		<button class="btn btn-lg btn-click-look" onclick="sendMatch()">Match</button> 
 	</div>
 	
@@ -65,6 +65,15 @@
     <ul id="user-list">
     </ul>
 		
+	</div>
+	
+	</section>
+	
+	<section id="section-standBy" class="container content-section text-center" style="padding:20px;">
+    
+    <div style="width:50%; margin: auto">
+    
+		<button class="btn btn-lg btn-click-look" onclick="clearUsers()">Clear Users</button><br/><br/> 
 	</div>
 	
 	</section>
@@ -164,6 +173,20 @@
 		ws.send(JSON.stringify({
 			type:"getusers"
 		}));
+	}
+	
+	function clearUsers() {
+		if (!ws) {
+			console.log("* No ws connection!");
+			return;
+		}
+
+		ws.send(JSON.stringify({
+			type:"clearusers"
+		}));
+		
+		var list = document.getElementById("user-list");
+    	list.innerHTML = "";
 	}
 	
 	</script>

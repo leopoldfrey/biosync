@@ -272,6 +272,10 @@ wss.on('connection', function connection(ws) {
 							}));
 				});
 	    	break;
+  		case "clearusers":
+  			console.log('- CLEARUSERS');
+  			usersMatch = [];
+	    	break;
   		default:
   			console.log('* ignored : '+msg.type);
   			break;
